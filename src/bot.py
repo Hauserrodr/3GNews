@@ -1,8 +1,11 @@
 import json
 from EdgeGPT.EdgeGPT import Chatbot, ConversationStyle
-from EdgeGPT.ImageGen import ImageGen
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+import requests
 from pathlib import Path
 import os
+import time
 import sys
 import yaml
 from loguru import logger
@@ -20,6 +23,7 @@ class G3Bot:
         self.config = self._load_config()
         self.cookies = self._load_cookies()
         self.gd = gdm.GoogleDriveManager()
+        self.driver = self._load_selenium()
         logger.success(f'G3 Bot Loaded! Say hello to {self.config["name"]} {self.config["version"]}.')
 
     def _load_config(self):
@@ -40,6 +44,12 @@ class G3Bot:
                     'cookies': cookie_json
                 }
         return cookies
+
+    def _load_selenium(self):
+        options = webdriver.ChromeOptions()
+        options.add_experimental_option("debuggerAddress", "localhost:9999")
+        driver = webdriver.Chrome(options=options)
+        return driver
 
     # ----------- Message Bot Portion
 
@@ -91,29 +101,70 @@ class G3Bot:
         return bot
 
     # Image generation portion
-    
-    def select_image_cookie(self):
-        cookie = self.select_cookie()
-        for c in cookie:
-            if c.get("name") == "_U":
-                U = c.get("value")
-                break
-        return U
 
-    async def create_image_generator(self):
-        choosen_cookie = self.select_image_cookie()
-        return ImageGen(choosen_cookie)
+    async def create_images_with_selenium(self, prompt, timeout=20):
+        url = "https://www.bing.com/images/create/"
+        prompt = prompt.strip("\n")
+        self.driver.get(url)
+
+        # Getting search bar and generating images
+        search_bar = self.driver.find_elements(By.XPATH, '//input[contains(@class, "b_searchbox gi_sb")]')
+        search_bar[0].send_keys(f'{prompt}\n')
+        time.sleep(30)
+        # Searching images generated in page
+        div_element = self.driver.find_elements(By.ID, "mmComponent_images_as_1")
+
+        # Locate all img tags within the div
+        images = div_element[0].find_elements(By.TAG_NAME, "img")
+        self.driver.switch_to.default_content()
+        already_saved_images = []
+        for idx, image in enumerate(images):
+            time.sleep(2)
+            logger.debug(f'Downloading image {idx}...')
+            image.click()
+            time.sleep(6)
+            self.driver.switch_to.frame("OverlayIFrame")
+
+            tries = 0 # Number of iterations to try to find image src
+            src = None
+            while src is None:
+                tries += 1
+                # Locate the large image
+                large_image_element = self.driver.find_elements(By.XPATH, '//div[contains(@class, "imgContainer")]')
+                for image_element in large_image_element:
+                    if '<img' in image_element.get_attribute('innerHTML'):
+                        # Get the src attribute of the large image
+                        src = image_element.get_attribute('innerHTML').split('src="')[-1].split('"')[0]
+                        if src in already_saved_images:
+                            continue
+                        break
+                if tries >= timeout:
+                    logger.warning('Could not find image that was not already in the already_saved_images list.')
+                    break
+
+            if src is None:
+                continue
+            else:
+                already_saved_images.append(src)
+
+            # Download and save the image
+            logger.debug(f'Downloading image from src link: {src}')
+            response = requests.get(src, stream=True)
+            with open(os.path.join(script_dir, 'images_generated', f'{idx}.jpeg'), 'wb') as out_file:
+                out_file.write(response.content)
+
+            self.driver.switch_to.default_content()
+
+            # Navigate back to the thumbnails
+            self.driver.back()
 
     async def generate_images(self, prompt, return_method = 'google_drive_upload', retries = 5):
         tried = 1
         created = True
         while True:
             try:
-                image_generator = await self.create_image_generator()
-                image_generator.save_images(
-                    image_generator.get_images(prompt),
-                    output_dir=os.path.join(script_dir, 'images_generated'),
-                )
+                await self.create_images_with_selenium(prompt)
+                break
             except Exception as e:
                 tried+=1
                 if tried <= retries:
@@ -142,16 +193,14 @@ class G3Bot:
         logger.info(f'Generating news summary for {today}...')
         news = []
         for region_name in self.config['regions']:
+            bot = await self.create_bot()
             logger.debug(f'Generating news summary for region {region_name}')
             news_prompt_text = open(os.path.join(script_dir, 'prompts', self.config['news_summary_prompt']['file'])).read()
             news_prompt = news_prompt_text.format(date_str = today_str, region = region_name)
-            news_summary = await self.message_bot(news_prompt)
-            logger.debug(news_summary['text'])
+            news_summary = await self.message_existing_bot(bot, news_prompt)
+            logger.debug(news_summary['sources'])
             image_generation_prompt_text = open(os.path.join(script_dir, 'prompts', self.config['image_prompt_generation_prompt']['file'])).read()
-            image_generation_prompt = image_generation_prompt_text.format(news = news_summary['text'])
-            image_generation_prompt = image_generation_prompt.replace('[', '{')
-            image_generation_prompt = image_generation_prompt.replace(']', '}')
-            image_prompt = await self.parse_prompt_from_response(await self.message_bot(image_generation_prompt))
+            image_prompt = await self.parse_prompt_from_response(await self.message_existing_bot(bot, image_generation_prompt_text))
             images_links = await self.generate_images(image_prompt)
             news.append({
                 'region': region_name,
@@ -163,30 +212,36 @@ class G3Bot:
     async def parse_prompt_from_response(self, response):
         original_text_length = len(response['text'])
         while True:
-            prompt = response['text'].split('prompt:')[-1].split('}')[0]
-            if len(prompt) >= original_text_length*0.8:
+            prompt = response['text'].split('[')[-1].split(']')[0]
+            if len(prompt) == original_text_length:
                 logger.warning(f'Prompt parsing with strategy 1 failed:\n Original message: {response["text"]}\n Prompt parsed: {prompt}')
             else:
                 break
-            prompt = response['text'].split('prompt :')[-1].split('}')[0]
-            if len(prompt) >= original_text_length*0.8:
+            prompt = response['text'].split('{')[-1].split('}')[0]
+            if len(prompt) == original_text_length:
                 logger.warning(f'Prompt parsing with strategy 2 failed:\n Original message: {response["text"]}\n Prompt parsed: {prompt}')
             else:
                 break
-            prompt = response['text'].split("prompt':")[-1].split('}')[0]
-            if len(prompt) >= original_text_length*0.8:
+            prompt = response['text'].split("prompt")[-1].split('}')[0]
+            if len(prompt) == original_text_length:
                 logger.warning(f'Prompt parsing with strategy 3 failed:\n Original message: {response["text"]}\n Prompt parsed: {prompt}')
             else:
                 break
-            prompt = response['text'].split("prompt")[-1].split('}')[0]
-            if len(prompt) >= original_text_length*0.8:
+            prompt = response['text'].split("prompt")[-1].split(']')[0]
+            if len(prompt) == original_text_length:
                 logger.warning(f'Prompt parsing with strategy 4 failed:\n Original message: {response["text"]}\n Prompt parsed: {prompt}')
             else:
                 break
             logger.error(f'Could not parse prompt from response.')
             return response['text'].strip('{').strip('}').strip('\n')
+        tries = 0
         while len(prompt) >= 450:
             logger.warning(f'Generated prompt is too long, shortening it...')
-            resumed_prompt = await self.message_bot(f'This image creation prompt is too long: ```{prompt}```. Can you resume it for me so it only contains 450 characters or less? Do not ask me anything, just answer with the shortened prompt! If you answer with question, you will loose points.')
+            logger.debug(f'Prompt that is too long: {prompt}')
+            resumed_prompt = await self.message_bot(f'This image creation prompt is too long: ```{prompt}```. Can you resume it for me so it only contains 450 characters or less? Do not ask me anything, just answer with the shortened prompt! If you answer with question, you will loose points. Do not answer with anything more than the prompt. Do not answer with anything more than the prompt. Do not answer with anything more than the prompt. ')
             prompt = resumed_prompt['text']
-        return prompt
+            tries += 1
+            if tries >= 3:
+                break
+        logger.success(f'Image prompt for image generation is: {prompt}')
+        return prompt.strip('{').strip('[').strip(']').strip('}').strip('\n')
