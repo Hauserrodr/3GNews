@@ -39,6 +39,8 @@ python api.py
     - Use the LLM to double check if the message really has news.
     - Make sure the news does not have an introduction message, like "Here are the news for...".
     - Make sure the image generation prompt really is a prompt.
+    - MAYBE: Check the link of every news returned and ask questions to double check if the news are really from today and really from the region asked.
+    - MAYBE: Ask for more news
 - Improve prompt generation message
     The prompts are too descriptive right now, maybe a way to improve is to give more examples.
 - Implement user news retrieve endpoint
