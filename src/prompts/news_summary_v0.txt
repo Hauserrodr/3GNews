@@ -1,0 +1,2 @@
+Sumarize as últimas notícias do dia {date_str} do Rio Grande do Sul, da região {region}.
+Seja eclético quanto ao tipo de notícia, eu gostaria de um resumo com uma visão geral das notícias de todos os jornais que encontrar.
