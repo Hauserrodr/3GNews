@@ -25,8 +25,8 @@ The purpose of the project is to make a comparison, using an artistic approach, 
 ### Installation
 1. Clone the repository:
    ```bash
-    git clone https://github.com/Hauserrodr/3G-AI-News-Bot.git
-    cd 3G-AI-News-Bot/src
+    git clone https://github.com/Hauserrodr/3GNews-Bot.git
+    cd 3GNews-Bot/src
     pip install requirements.txt
     python api.py
     ```
