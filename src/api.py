@@ -5,10 +5,6 @@ from pathlib import Path
 # Find this script directory
 script_dir = Path( __file__ ).parent.absolute()
 
-# Bot related modules
-import bot
-g3 = bot.G3Bot()
-
 # FastAPI related modules
 
 from fastapi import FastAPI, Query
@@ -72,3 +68,7 @@ async def list_googledrive_files():
 
 if __name__ == "__main__":
     uvicorn.run(app='api:app', host="0.0.0.0", port=7777, reload=False)
+else:
+    # Bot related modules
+    import bot
+    g3 = bot.G3Bot()
