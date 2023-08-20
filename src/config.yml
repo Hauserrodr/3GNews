@@ -7,4 +7,5 @@ news_summary_prompt:
 image_prompt_generation_prompt:
   version: 0.0
   file: 'image_prompt_generation_v0.txt'
-regions: ['Porto Alegre', 'Viamão', 'Alvorada', 'Cachoeirinha', 'São Leopoldo', 'Gramado', 'Canela', 'Carlos Barbosa', 'Pelotas', 'São Jorge']
+regions: ['Porto Alegre', 'Viamão']
+# regions: ['Porto Alegre', 'Viamão', 'Alvorada', 'Cachoeirinha', 'São Leopoldo', 'Gramado', 'Canela', 'Carlos Barbosa', 'Pelotas', 'São Jorge']

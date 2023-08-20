@@ -1,8 +1,16 @@
-Aqui estão algums notícias do Rio Grande do Sul de hoje: {news}. Eu gostaria que você criasse um prompt em inglês baseados nessas notícias. Exemplos de prompts bons são: ```Examples of high-quality prompts for a stunning close-up photorealistic illustration of Ana de Armas for text-to-image models (Stable Diffusion, midjourney, or Dalle2) are:
+Agora eu gostaria que você criasse um prompt em inglês baseados nessas notícias. Exemplos de prompts bons são: ```Examples of high-quality prompts for a stunning close-up photorealistic illustration of Ana de Armas for text-to-image models (Stable Diffusion, midjourney, or Dalle2) are:
 
 - "A dreamy, vibrant portrait of Ana de Armas; aesthetically pleasing anime style, trending on popular art platforms, minutely detailed, with precise, sharp lines, a composition that qualifies as an award-winning illustration, presented in 4K resolution, inspired by master artists like Eugene de Blaas and Ross Tran, employing a vibrant color palette, intricately detailed."
 
 - "A portrait exuding Alberto Seveso and Geo2099's distinctive styles; an ultra-detailed and hyper-realistic portrayal of Ana de Armas, designed with Lisa Frank aesthetics, featuring popular art elements such as butterflies and florals, sharp focus, akin to a high-quality studio photograph, with meticulous detailing, made famous by artists such as Tvera, Wlop, and Artgerm."```
 Seguindo as técnicas utilizadas nesses exemplos, crie um prompt de uma imagem que englobe todas as notícias citadas. Responda com apenas o prompt neste formato: ```[
-    'prompt': # Coloque o prompt em inglês aqui.
-]```
+# Coloque o prompt em inglês aqui.
+]
+
+Lembre-se! Eu não quero que você gere uma imagem, quero apenas um text descritivo de uma imagem. Você apenas tem que resumir as notícias em uma pequena frase.
+Responda apenas com no formato que pedi (uma lista do python), sem introdução ou algum outro texto.
+Responda apenas com no formato que pedi (uma lista do python), sem introdução ou algum outro texto.
+Responda apenas com no formato que pedi (uma lista do python), sem introdução ou algum outro texto.
+Responda apenas com no formato que pedi (uma lista do python), sem introdução ou algum outro texto.
+Responda apenas com no formato que pedi (uma lista do python), sem introdução ou algum outro texto.
+```
