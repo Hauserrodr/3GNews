@@ -16,6 +16,7 @@ class GoogleDriveManager:
         logger.info('Initializing GoogleDriveManager...')
         self.auth = self._generate_auth()
         self.gd = GoogleDrive(self.auth)
+        self.list_files() # Just for triggering authentication when the bot starts!
         logger.success('Successfully authenticated and initialized GoogleDriveManager.')
 
     def _generate_auth(self):
@@ -50,4 +51,8 @@ class GoogleDriveManager:
             ,'value': 'anyone'
             ,'role':  'reader'
         })
-        return file['alternateLink']
+        # return file['alternateLink']
+        embed_link = file['embedLink']
+        image_id = embed_link.split('/d/')[-1].split('/')[0]
+        src_link = f'https://drive.google.com/uc?export=view&id={image_id}'
+        return src_link
