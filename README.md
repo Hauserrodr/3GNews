@@ -27,7 +27,7 @@ The purpose of the project is to make a comparison, using an artistic approach, 
 git clone https://github.com/Hauserrodr/3GNews-Bot.git
 cd 3GNews-Bot
 pip install -r requirements.txt
-chromium --remote-debugging-port 9999
+msedge.exe --remote-debugging-port 9999
 python api.py
 ```
 
