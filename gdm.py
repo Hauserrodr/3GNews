@@ -27,6 +27,17 @@ class GoogleDriveManager:
         file_list = self.gd.ListFile({'q': "'root' in parents and trashed=false"}).GetList()
         return file_list
 
+    def list_files_in_folder(self, folderName):
+        folders = self.gd.ListFile(
+            {'q': "title='" + folderName + "' and mimeType='application/vnd.google-apps.folder' and trashed=false"}).GetList()
+        for folder in folders:
+            if folder['title'] == folderName:
+                folder_id = folder['id']
+                break
+        query = f"'{folder_id}' in parents and trashed=false"
+        file_list = self.gd.ListFile({'q': query}).GetList()
+        return file_list
+
     def upload_file(self, file_path, filename = None, gdrive_path = None):
         if gdrive_path is not None:
             folderName = gdrive_path
