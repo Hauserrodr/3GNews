@@ -58,6 +58,12 @@ class G3Bot:
         driver = webdriver.Edge(options=options)
         return driver
 
+    def _load_chrome(self):
+        options = webdriver.ChromeOptions()
+        options.add_experimental_option("debuggerAddress", "localhost:9999")
+        driver = webdriver.Chrome(options=options)
+        return driver
+
     # ----------- Message Bot Portion
 
     def select_cookie(self):
