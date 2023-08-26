@@ -33,9 +33,9 @@ python api.py
 
 ### TODO
 - Implement user image generation
-    Basically this feature allows users to generate images based on the daily stories they provide. The story is used for generating an image prompt, which is then feeded into DALL-E2 API (via Bing) to generate 4 images about the user narrative.
+    Basically this feature allows users to generate images based on the daily stories they provide. The story is used for generating an image prompt, which is then feeded into DALL-E2 API (via Bing) to generate 4 images about the user narrative. >>> DONE
 - Implement daily news retrieve endpoint
-    Since it's the backend job to create the daily news every day at 6AM, we should have a route to just retrieve the images from google drive instead of generating them everything the endpoint is accessed.
+    Since it's the backend job to create the daily news every day at 6AM, we should have a route to just retrieve the images from google drive instead of generating them everything  the endpoint is accessed. >>> DONE
 - Improve news generation pipeline
     - Use the LLM to double check if the message really has news.
     - Make sure the news does not have an introduction message, like "Here are the news for...".
@@ -45,9 +45,9 @@ python api.py
 - Improve prompt generation message
     The prompts are too descriptive right now, maybe a way to improve is to give more examples.
 - Implement user news retrieve endpoint
-    We should have this endpoint for retrieving every user's daily news stories from Google Drive.
+    We should have this endpoint for retrieving every user's daily news stories from Google Drive. >>> DONE
 - Save data about the news locally (or at least the url for the google drive archive)
-    We should save data about when the news was generated, the users news, etc.
+    We should save data about when the news was generated, the users news, etc. >>> DONE
 
 
 EXTRAS
