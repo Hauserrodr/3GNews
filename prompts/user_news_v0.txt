@@ -1,0 +1,1 @@
+Um usuário do meu site, chamado {user_name}, me mandou uma história sobre seu dia. Ele mora na cidade {user_region}, no bairro {user_microregion} e me contou um pouco seu dia. A história do usuário é: {user_history}

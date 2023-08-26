@@ -4,8 +4,14 @@ description: "A friendly AI assistant"
 news_summary_prompt:
   version: 0.0
   file: 'news_summary_v0.txt'
+user_news:
+  version: 0.0
+  file: 'user_news_v0.txt'
 image_prompt_generation_prompt:
   version: 0.0
   file: 'image_prompt_generation_v0.txt'
+user_prompt_generation_prompt:
+  version: 0.0
+  file: 'user_prompt_generation_v0.txt'
 regions: ['Porto Alegre', 'Viamão']
 # regions: ['Porto Alegre', 'Viamão', 'Alvorada', 'Cachoeirinha', 'São Leopoldo', 'Gramado', 'Canela', 'Carlos Barbosa', 'Pelotas', 'São Jorge']
