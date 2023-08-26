@@ -115,7 +115,7 @@ class G3Bot:
 
     # Image generation portion
 
-    async def create_images_with_selenium(self, prompt, timeout=20):
+    async def create_images_with_browser(self, prompt, timeout=20):
         url = "https://www.bing.com/images/create/"
         prompt = prompt.strip("\n")
         self.driver.get(url)
