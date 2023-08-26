@@ -214,15 +214,25 @@ class G3Bot:
         for region_name in self.config['regions']:
             bot = await self.create_bot()
             logger.debug(f'Generating news summary for region {region_name}')
+
+            # News Summary prompt
             news_prompt_text = open(os.path.join(script_dir, 'prompts', self.config['news_summary_prompt']['file'])).read()
             news_prompt = news_prompt_text.format(date_str = day_str, region = region_name)
             news_summary = await self.message_existing_bot(bot, news_prompt)
             logger.debug(news_summary['sources'])
+
+            # Headline
+            headline_prompt = open(os.path.join(script_dir, 'prompts', self.config['headline_generation_prompt']['file'])).read()
+            news_headline = await self.message_existing_bot(bot, headline_prompt)
+            headline = news_headline['text']
+
+            # Image generation prompt
             image_generation_prompt_text = open(os.path.join(script_dir, 'prompts', self.config['image_prompt_generation_prompt']['file'])).read()
             image_prompt = await self.parse_prompt_from_response(await self.message_existing_bot(bot, image_generation_prompt_text))
             images_links = await self.generate_images(image_prompt, filename_prefix=region_name)
             news.append({
                 'day_str': day_str,
+                'headline': headline,
                 'region': region_name,
                 'news': news_summary['text'],
                 'news_source': news_summary['source'] if 'source' in news_summary.keys() else None,
