@@ -202,27 +202,88 @@ class G3Bot:
             return list(os.listdir(os.path.join(script_dir, 'images_generated')))
 
     # News generation portion
-    async def get_news_for_today(self):
+    async def generate_news_for_today(self):
         today = datetime.date.today()
-        today_str = today.strftime('%d/%m/%Y')
+        day_str = today.strftime('%d/%m/%Y')
         logger.info(f'Generating news summary for {today}...')
         news = []
         for region_name in self.config['regions']:
             bot = await self.create_bot()
             logger.debug(f'Generating news summary for region {region_name}')
             news_prompt_text = open(os.path.join(script_dir, 'prompts', self.config['news_summary_prompt']['file'])).read()
-            news_prompt = news_prompt_text.format(date_str = today_str, region = region_name)
+            news_prompt = news_prompt_text.format(date_str = day_str, region = region_name)
             news_summary = await self.message_existing_bot(bot, news_prompt)
             logger.debug(news_summary['sources'])
             image_generation_prompt_text = open(os.path.join(script_dir, 'prompts', self.config['image_prompt_generation_prompt']['file'])).read()
             image_prompt = await self.parse_prompt_from_response(await self.message_existing_bot(bot, image_generation_prompt_text))
-            images_links = await self.generate_images(image_prompt)
+            images_links = await self.generate_images(image_prompt, filename_prefix=region_name)
             news.append({
+                'day_str': day_str,
                 'region': region_name,
                 'news': news_summary['text'],
+                'news_source': news_summary['source'] if 'source' in news_summary.keys() else None,
+                'image_prompt': image_prompt,
                 'images': images_links
             })
+        if os.path.exists(os.path.join(script_dir, 'news_data', 'media_news.json')):
+            with open(os.path.join(script_dir, 'news_data', 'media_news.json'), 'r') as f:
+                self.news_data = json.load(f)
+        self.news_data.extend(news)
+        with open(os.path.join(script_dir, 'news_data', 'media_news.json'), 'w') as f:
+            json.dump(self.news_data, f, indent=4)
+        self.gd.upload_file(os.path.join(script_dir, 'news_data', 'media_news.json'), 'news_data.json')
         return news
+
+    # News generation portion
+    async def generate_news_for_user(self, user_name, user_region, user_microregion, user_history):
+        today = datetime.date.today()
+        logger.info(f'Generating user news prompt for date {today}. User region: {user_region}')
+        bot = await self.create_bot()
+        news_prompt_text = open(os.path.join(script_dir, 'prompts', self.config['user_news']['file'])).read()
+        news_prompt = news_prompt_text.format(user_name=user_name, user_region=user_region, user_microregion=user_microregion, user_history=user_history)
+        news_summary = await self.message_existing_bot(bot, news_prompt)
+        logger.debug(news_summary['text'])
+        image_generation_prompt_text = open(os.path.join(script_dir, 'prompts', self.config['image_prompt_generation_prompt']['file'])).read()
+        image_prompt = await self.parse_prompt_from_response(await self.message_existing_bot(bot, image_generation_prompt_text))
+        images_links = await self.generate_images(image_prompt, filename_prefix=f"{user_name}&&{user_region}&&{user_microregion}", gdrive_folder='user_news')
+        if os.path.exists(os.path.join(script_dir, 'news_data', 'user_news.json')):
+            with open(os.path.join(script_dir, 'news_data', 'user_news.json'), 'r') as f:
+                self.users_news = json.load(f)
+        news_info = {
+            'day_str': today.strftime('%d/%m/%Y'),
+            'user_name': user_name,
+            'user_region': user_region,
+            'user_microregion': user_microregion,
+            'user_history': user_history,
+            'images': images_links
+        }
+        self.users_news.append(news_info)
+        with open(os.path.join(script_dir, 'news_data', 'user_news.json'), 'w') as f:
+            json.dump(self.users_news, f, indent=4)
+        self.gd.upload_file(os.path.join(script_dir, 'news_data', 'user_news.json'), 'user_news.json')
+        return news_info
+
+    # News get portion
+    async def get_news_for_today(self):
+        today = datetime.date.today()
+        today_str = today.strftime("%d/%m/%Y")
+        today_news = [n for n in self.news_data if n['day_str'] == today_str]
+        return today_news
+
+    async def get_news_for_date(self, day_str):
+        news = [n for n in self.news_data if n['day_str'] == day_str]
+        return news
+
+    async def get_user_news_for_today(self):
+        today = datetime.date.today()
+        today_str = today.strftime("%d/%m/%Y")
+        today_news = [n for n in self.users_news if n['day_str'] == today_str]
+        return today_news
+
+    async def get_user_news_for_date(self, day_str):
+        news = [n for n in self.users_news if n['day_str'] == day_str]
+        return news
+
 
     async def parse_prompt_from_response(self, response):
         original_text_length = len(response['text'])
