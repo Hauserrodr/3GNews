@@ -26,8 +26,8 @@ class G3Bot:
         else:
             self.driver = self._load_chrome()
         logger.success(f'G3 Bot Loaded! Say hello to {self.config["name"]} {self.config["version"]}.')
-        if os.path.exists(os.path.join(script_dir, 'news_data', 'news_data.json')):
-            with open(os.path.join(script_dir, 'news_data', 'news_data.json'), 'r') as f:
+        if os.path.exists(os.path.join(script_dir, 'news_data', 'media_news.json')):
+            with open(os.path.join(script_dir, 'news_data', 'media_news.json'), 'r') as f:
                 self.news_data = json.load(f)
         else:
             self.news_data = []
@@ -235,7 +235,7 @@ class G3Bot:
         self.news_data.extend(news)
         with open(os.path.join(script_dir, 'news_data', 'media_news.json'), 'w') as f:
             json.dump(self.news_data, f, indent=4)
-        self.gd.upload_file(os.path.join(script_dir, 'news_data', 'media_news.json'), 'news_data.json')
+        self.gd.upload_file(os.path.join(script_dir, 'news_data', 'media_news.json'), 'media_news.json')
         return news
 
     # News generation portion
