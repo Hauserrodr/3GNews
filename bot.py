@@ -171,12 +171,12 @@ class G3Bot:
             # Navigate back to the thumbnails
             self.driver.back()
 
-    async def generate_images(self, prompt, return_method = 'google_drive_upload', retries = 5):
+    async def generate_images(self, prompt, return_method = 'google_drive_upload', retries = 5, gdrive_folder = 'media_news', filename_prefix = ''):
         tried = 1
         created = True
         while True:
             try:
-                await self.create_images_with_selenium(prompt)
+                await self.create_images_with_browser(prompt)
                 break
             except Exception as e:
                 tried+=1
@@ -191,8 +191,10 @@ class G3Bot:
         if return_method == 'google_drive_upload':
             google_drive_link_list = []
             for image_file in os.listdir(os.path.join(script_dir, 'images_generated')):
+                if not image_file.endswith('.jpeg'):
+                    continue
                 image_path = os.path.join(script_dir, 'images_generated', image_file)
-                link = self.gd.upload_file(image_path, str(datetime.datetime.now())+f'_{image_file}')
+                link = self.gd.upload_file(image_path, str(datetime.date.today())+f'__{filename_prefix}__'+f'_{image_file}', gdrive_path=gdrive_folder)
                 os.remove(image_path)
                 google_drive_link_list.append(link)
             return google_drive_link_list
