@@ -81,7 +81,7 @@ class G3Bot:
 
         return choosen_cookie['cookies']
 
-    async def message_bot(self, message, style=ConversationStyle.balanced, retries=5):
+    async def message_bot(self, message, style=ConversationStyle.precise, retries=5):
         tried = 1
         while True:
             try:
@@ -98,7 +98,7 @@ class G3Bot:
                     break
         return response
 
-    async def message_existing_bot(self, bot, message, style = ConversationStyle.balanced, retries=5):
+    async def message_existing_bot(self, bot, message, style = ConversationStyle.precise, retries=5):
         tried = 1
         while True:
             try:
