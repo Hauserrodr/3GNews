@@ -42,13 +42,43 @@ async def generate_image(prompt: str = Query(..., description='Generate an image
 @app.get('/generate_news_for_today')
 async def generate_news_for_today():
     global g3
+    r = await g3.generate_news_for_today()
+    return r
+
+@app.get('/generate_user_news')
+async def generate_user_news(user_name:str, user_region:str, user_microregion:str, user_history:str):
+    global g3
+    r = await g3.generate_news_for_user(user_name, user_region, user_microregion, user_history)
+    return r
+
+@app.get('/get_news_for_today')
+async def get_news_for_today():
+    global g3
     r = await g3.get_news_for_today()
+    return r
+
+@app.get('/get_news_for_date')
+async def get_news_for_date(day_str: str):
+    global g3
+    r = await g3.get_news_for_date(day_str)
+    return r
+
+@app.get('/get_user_news_for_today')
+async def get_user_news_for_today():
+    global g3
+    r = await g3.get_user_news_for_today()
+    return r
+
+@app.get('/get_user_news_for_date')
+async def get_user_news_for_date(day_str: str):
+    global g3
+    r = await g3.get_user_news_for_date(day_str)
     return r
 
 @app.get('/get_news_html')
 async def get_news_html():
     global g3
-    r = await g3.get_news_for_today()
+    r = await g3.generate_news_for_today()
     html = '''<div style="font-family: Arial, sans-serif;">'''
     for news_item in r:
         region = news_item['region']
