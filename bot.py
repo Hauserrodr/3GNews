@@ -29,9 +29,13 @@ class G3Bot:
         if os.path.exists(os.path.join(script_dir, 'news_data', 'news_data.json')):
             with open(os.path.join(script_dir, 'news_data', 'news_data.json'), 'r') as f:
                 self.news_data = json.load(f)
+        else:
+            self.news_data = []
         if os.path.exists(os.path.join(script_dir, 'news_data', 'user_news.json')):
             with open(os.path.join(script_dir, 'news_data', 'user_news.json'), 'r') as f:
                 self.users_news = json.load(f)
+        else:
+            self.users_news = []
 
     def _load_config(self):
         with open(os.path.join(script_dir, 'config.yml'), "r") as stream:
