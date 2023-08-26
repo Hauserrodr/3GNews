@@ -1,0 +1,5 @@
+Sumarize as últimas notícias do dia do Rio Grande do Sul, da região.
+Seja eclético quanto ao tipo de notícia, eu gostaria de um resumo com uma visão geral das notícias de todos os jornais que encontrar.
+Responda esta solicitação apenas com as notícias. NÃO introduza com o texto ‘’Aqui está um resumo das últimas notícias do Rio Grande do Sul e da região:’’, me entregue diretamente as noticias.
+As notícias devem estar entre [ ] ex: [O Dia do Patriota foi comemorado em Porto Alegre, juntamente com o Dia em Defesa da Democracia ]
+Inclua o link das noticias.
