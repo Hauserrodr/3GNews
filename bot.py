@@ -253,18 +253,30 @@ class G3Bot:
         today = datetime.date.today()
         logger.info(f'Generating user news prompt for date {today}. User region: {user_region}')
         bot = await self.create_bot()
+
+        # News summary
         news_prompt_text = open(os.path.join(script_dir, 'prompts', self.config['user_news']['file'])).read()
         news_prompt = news_prompt_text.format(user_name=user_name, user_region=user_region, user_microregion=user_microregion, user_history=user_history)
         news_summary = await self.message_existing_bot(bot, news_prompt)
         logger.debug(news_summary['text'])
+
+        # Headline
+        headline_prompt = open(os.path.join(script_dir, 'prompts', self.config['headline_generation_prompt']['file'])).read()
+        news_headline = await self.message_existing_bot(bot, headline_prompt)
+        headline = news_headline['text']
+
+        # Image generation
         image_generation_prompt_text = open(os.path.join(script_dir, 'prompts', self.config['image_prompt_generation_prompt']['file'])).read()
         image_prompt = await self.parse_prompt_from_response(await self.message_existing_bot(bot, image_generation_prompt_text))
         images_links = await self.generate_images(image_prompt, filename_prefix=f"{user_name}&&{user_region}&&{user_microregion}", gdrive_folder='user_news')
+
         if os.path.exists(os.path.join(script_dir, 'news_data', 'user_news.json')):
             with open(os.path.join(script_dir, 'news_data', 'user_news.json'), 'r') as f:
                 self.users_news = json.load(f)
+
         news_info = {
             'day_str': today.strftime('%d/%m/%Y'),
+            'headline': headline,
             'user_name': user_name,
             'user_region': user_region,
             'user_microregion': user_microregion,
