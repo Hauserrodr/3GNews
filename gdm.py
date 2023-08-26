@@ -39,6 +39,7 @@ class GoogleDriveManager:
         return file_list
 
     def upload_file(self, file_path, filename = None, gdrive_path = None):
+        folder_id = None
         if gdrive_path is not None:
             folderName = gdrive_path
             folders = self.gd.ListFile(
@@ -47,9 +48,9 @@ class GoogleDriveManager:
                 if folder['title'] == folderName:
                     folder_id = folder['id']
             if filename is None:
-                file = self.gd.CreateFile()
+                file = self.gd.CreateFile({'parents': [{'id': folder_id}]})
             else:
-                file = self.gd.CreateFile({'title': filename})
+                file = self.gd.CreateFile({'title': filename, 'parents': [{'id': folder_id}]})
         else:
             if filename is None:
                 file = self.gd.CreateFile()
