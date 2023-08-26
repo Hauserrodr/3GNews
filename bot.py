@@ -15,16 +15,23 @@ import gdm
 # Find this script directory
 script_dir = Path( __file__ ).parent.absolute()
 
-
-
 class G3Bot:
-    def __init__(self):
+    def __init__(self, browser='chrome'):
         logger.info(f'Initiating G3 Bot, please stand by...')
         self.config = self._load_config()
         self.cookies = self._load_cookies()
         self.gd = gdm.GoogleDriveManager()
-        self.driver = self._load_selenium()
+        if browser == 'selenium':
+            self.driver = self._load_selenium()
+        else:
+            self.driver = self._load_chrome()
         logger.success(f'G3 Bot Loaded! Say hello to {self.config["name"]} {self.config["version"]}.')
+        if os.path.exists(os.path.join(script_dir, 'news_data', 'news_data.json')):
+            with open(os.path.join(script_dir, 'news_data', 'news_data.json'), 'r') as f:
+                self.news_data = json.load(f)
+        if os.path.exists(os.path.join(script_dir, 'news_data', 'user_news.json')):
+            with open(os.path.join(script_dir, 'news_data', 'user_news.json'), 'r') as f:
+                self.users_news = json.load(f)
 
     def _load_config(self):
         with open(os.path.join(script_dir, 'config.yml'), "r") as stream:
