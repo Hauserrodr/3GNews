@@ -1,77 +1,5 @@
-body {
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 1rem;
-    background-color: #fff;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-}
-
-header, footer {
-    background-color: #f00;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-header {
-    height: 64px;
-}
-
-footer {
-    height: 48px;
-    flex-shrink: 0;
-}
-
-footer p, #logo {
-    color: #FFF;
-    margin: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-footer p {
-    font-size: 20px;
-}
-
-#logo {
-    flex-shrink: 0;
-    text-align: center;
-    font-size: 48px;
-    font-weight: 700;
-    line-height: normal;
-    margin: 0 auto;
-}
-
-div {
-    position: relative;
-    width: 90%;
-    align-items: center;
-}
-
-#menu-bt {
-    color: #FFF;
-    padding: 10px;
-}
-
-.material-symbols-outlined {
-  font-variation-settings:
-  'FILL' 0,
-  'wght' 700,
-  'GRAD' 0,
-  'opsz' 40
-}
-
-#menu{
-    display: flex;
-    align-items: start;
-}
-menu>ul {
-    list-style-type: none;
-}
-@media (min-width: 769px) {
+@media (max-width: 768px) {
+    /* You can add styles specific to screens smaller than 768px here */
     .gallery {
         background-color: #f00;
         align-items: center;
@@ -93,7 +21,7 @@ menu>ul {
     }
     .user-container {
         display: grid;
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: 1fr;
         justify-content: space-evenly;
         justify-items: center;
         align-content: space-evenly;
@@ -109,6 +37,3 @@ menu>ul {
     }
 }
 
-@media (max-width: 768px) {
-    /* You can add styles specific to screens smaller than 768px here */
-}
