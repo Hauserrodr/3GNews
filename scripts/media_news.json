@@ -1,23 +1,4 @@
-function populateGallery(data) {
-    const container = document.querySelector(".gallery-item");
-    
-    data.forEach(item => {
-        const userContainer = document.createElement('div');
-        userContainer.className = 'user-container';
-        
-        item.images.forEach(imgSrc => {
-            console.log(imgSrc)
-            const img = document.createElement('img');
-            img.src = imgSrc;
-            userContainer.appendChild(img);
-        });
-        
-        container.appendChild(userContainer);
-    });
-}
-
-// Your data
-const data = [
+[
     {
         "day_str": "21/08/2023",
         "headline": "\"Rio Grande do Sul: Vestibular, geada, crime e pol\u00edtica marcam as not\u00edcias do dia\"",
@@ -99,5 +80,3 @@ const data = [
         ]
     }
 ]
-// Call the function
-populateGallery(data);
