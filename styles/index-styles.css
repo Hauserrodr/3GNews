@@ -73,9 +73,9 @@
         padding: 20px;
     }
     .sendnews {
-        display: flex;
-        justify-content: center;
-        align-items: center;
+        display: grid;
+        grid-template-columns: 1fr;
+        margin: 0 auto;
         background-color: #F00;
         width: 93%;
         height: 40rem;
@@ -171,6 +171,8 @@
 
     .sendnews {
         display: grid;
+        grid-template-columns: 1fr 1fr;
+        margin: 0 auto;
         background-color: #F00;
         width: 93%;
         height: 40rem;
