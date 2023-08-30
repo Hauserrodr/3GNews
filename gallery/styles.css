@@ -51,22 +51,46 @@ div {
     align-items: center;
 }
 
+#menu-bt {
+    color: #FFF;
+    padding: 10px;
+}
+
+#menu{
+    display: flex;
+    align-items: start;
+}
+menu>ul {
+    display: none;
+}
 @media (min-width: 769px) {
     .gallery {
         background-color: #f00;
+        align-items: center;
+        margin: 0 auto;
     }
     .gallery h2{
         color: #FFF;
         text-align: start;
         width: 25%;
         font-size: 64px;
-             
+        padding: 20px;
     }
     .gallery-container {
         display: grid;
         grid-template-columns: 1fr;
         justify-content: center;
         align-items: center;
+        margin: 0 auto;
+    }
+    .user-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        justify-content: space-evenly;
+        justify-items: center;
+        align-content: space-evenly;
+        align-items: center;
+        margin: 0 auto
     }
     
     img {
