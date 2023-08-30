@@ -35,16 +35,15 @@ header {
 }
 
 #footer p {
-    font-size: 1.3rem;
+    font-size: 2.5vw;
 }
 
 #logo {
-    flex-shrink: 0;
     text-align: center;
-    font-size: 48px;
     font-weight: 700;
     line-height: normal;
     margin: auto;
+    font-size: 3vw;
 }
 
 #menu-bt {
