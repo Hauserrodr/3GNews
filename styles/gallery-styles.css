@@ -37,12 +37,11 @@
         max-width: 90%;
         max-height: 90%;
         gap: 20px;
-        padding: 20px;
+        margin: 0 auto;
     }
 }
 
 @media (min-width: 769px) {
-    @media (min-width: 769px) {
         .gallery {
             background-color: #f00;
             align-items: center;
@@ -75,9 +74,6 @@
         img {
             max-width: 90%;
             max-height: 90%;
-            gap: 20px;
-            padding: 20px;
         }
     }
     
-}
