@@ -1,17 +1,119 @@
-@media screen and (max-width:768px) {
-    #logo {
-        font-size: 32px;
-    }
+/* Global*/
+.sendnews {
+    background-color: #F00;
 }
-@media screen and (min-width: 769px) {
-    body{
-        font-family: sans-serif;
+.floatnews, .brnews img {
+    border: #F00 solid 1px;
+}
+#call {
+    background-color: #FFF;
+}
+#call h2,h3{
+    color: #F00;
+}
+.sendnews p {
+    color: #FFF;
+}
+/*Mobile*/
+@media screen and (max-width:768px) {
+    /* Notícia Principal*/
+    #mainnews {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 90%;
         margin: 0 auto;
-        overflow: auto;
+        padding: 20px;
+    }
+    #mainNews img { 
+        width: 50%;
+        height: 32%;
+        margin: 0 auto;
+    }
+
+    /* Notícias Constante*/
+    #news {
+        display: grid;
+        grid-template-columns: 1fr;
+        margin: 0 auto;
+        align-items: center;
+        padding: 20px;
+        gap: 20px;
+    }
+    .floatnews {
+        width: 90%;
+        height: 10rem;
+        margin: 0 auto;
+    }
+    #post img {
+        width: 2rem;
+        height: 2rem;
+    }
+    #posts {
+        margin: 0 auto;
+        padding: 20px;
+        width: 90%;
+        height: 90%;        
+    }
+    .brnews img {
+        width: 256px;
+        height: 256px;
+        margin: 0 auto;
+        display: block;
+        overflow: hidden;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        transition: all 0.5s ease;
+        cursor: pointer;
         position: relative;
 
     }
 
+    /* Formulário*/
+    div#column1 {
+        padding: 20px;
+    }
+    .sendnews {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #F00;
+        width: 93%;
+        height: 40rem;
+        gap: 20px;
+        margin: auto
+    }
+    .sendnews p {
+        width: 32rem;
+        height: 15rem;
+        font-size: 5rem;
+        text-align: initial;
+    }
+    #call{
+        width: 93%;
+        text-align: start;
+    }
+
+    .info {
+        height: 20px;
+        flex-shrink: 1;
+        resize: none;
+        width: 90%;
+        display: flex;
+        margin-top: 10px;
+    }
+    
+    #sendnewsbox { width: 88%;
+        flex-shrink: 1;
+        height: 24rem;
+        font-size: 24px;
+        padding: 20px;
+        resize: none;
+
+    }
+}
+
+/*Desktop*/
+@media screen and (min-width: 769px) {
 
     /* Notícia Principal*/
     #mainnews {
@@ -30,36 +132,33 @@
 
     /* Notícias Constante*/
     #news {
-        display: flex;
-        justify-content: center;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        margin: 0 auto;
         align-items: center;
         padding: 20px;
         gap: 20px;
     }
     .floatnews {
-        width: 300px;
-        height: 75px;
-        border: 1px solid #F00;
+        width: 90%;
+        height: 10rem;
+        margin: 0 auto;
     }
     #post img {
-        width: 32px;
-        height: 32px;
+        width: 2rem;
+        height: 2rem;
     }
     #posts {
-        display: flex;
-        align-items: center;
-        border:  10px black;
+        margin: 0 auto;
         padding: 20px;
-        border-radius: 5px;
-        background: #D9D9D9;
-        
+        width: 90%;
+        height: 90%;        
     }
     .brnews img {
         width: 256px;
         height: 256px;
         margin: 0 auto;
         display: block;
-        border: 1px solid #F00;
         overflow: hidden;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
         transition: all 0.5s ease;
@@ -69,45 +168,44 @@
     }
 
     /* Formulário*/
+
     .sendnews {
-        display: flex;
-        justify-content: center;
-        align-items: center;
+        display: grid;
         background-color: #F00;
-        width: 1330px;
-        height: 644px;
+        width: 93%;
+        height: 40rem;
         gap: 20px;
         margin: auto
     }
     .sendnews p {
-        color: #FFF;
-        width: 482px;
-        height: 339px;
-        font-size: 64px;
+        width: 32rem;
+        height: 15rem;
+        font-size: 5rem;
         text-align: initial;
-        justify-content: center;
-        align-items: center;
+    }    
+    div#column1 {
+        padding: 20px;
     }
     #call{
-        width: 678px;
+        width: 93%;
         text-align: start;
     }
-    #call h2, h3 {
-        color: #F00;
-    }
+
     .info {
         height: 20px;
+        flex-shrink: 1;
         resize: none;
-        width: 300px;
+        width: 90%;
         display: flex;
-        justify-content: grid;
-        grid-template-columns: 1fr;
         margin-top: 10px;
     }
     
-    #sendnewsbox { width: 678px;
-        height: 422px;
+    #sendnewsbox { width: 88%;
+        flex-shrink: 1;
+        height: 24rem;
         font-size: 24px;
         padding: 20px;
+        resize: none;
+
     }
 }

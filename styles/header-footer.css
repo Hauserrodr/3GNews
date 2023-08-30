@@ -13,6 +13,7 @@ header, footer {
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: .5%;
 }
 
 header {
@@ -20,6 +21,7 @@ header {
 }
 
 footer {
+    margin-top: 2%;
     height: 48px;
     flex-shrink: 0;
 }
@@ -42,13 +44,7 @@ footer p {
     font-size: 48px;
     font-weight: 700;
     line-height: normal;
-    margin: 0 auto;
-}
-
-div {
-    position: relative;
-    width: 90%;
-    align-items: center;
+    margin: auto;
 }
 
 #menu-bt {
