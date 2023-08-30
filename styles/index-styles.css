@@ -1,5 +1,5 @@
 /* Global*/
-.sendnews {
+.sendnews, #column1, #column2{
     background-color: #F00;
 }
 .floatnews, .brnews img {
@@ -17,6 +17,14 @@
 /*Mobile*/
 @media screen and (max-width:768px) {
     /* Notícia Principal*/
+    main {
+        display: grid;
+        align-content: center;
+        justify-content: center;
+        align-items: center;
+        justify-items: center;
+    }
+
     #mainnews {
         display: flex;
         justify-content: center;
@@ -71,6 +79,13 @@
     /* Formulário*/
     div#column1 {
         padding: 20px;
+        display: grid;
+        justify-items: center;
+    }
+    div#column2 {
+        padding: 20px;
+        display: grid;
+        justify-items: center;
     }
     .sendnews {
         display: grid;
@@ -109,6 +124,10 @@
         padding: 20px;
         resize: none;
 
+    }
+    #footer {
+        position: relative;
+        bottom: -700%;
     }
 }
 
