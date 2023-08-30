@@ -102,8 +102,8 @@ menu>ul {
     }
     
     img {
-        max-width: 45%;
-        max-height: 45%;
+        max-width: 90%;
+        max-height: 90%;
         gap: 20px;
         padding: 20px;
     }
