@@ -1,3 +1,7 @@
+.gallery {
+    width: 92%;
+}
+
 @media (max-width: 768px) {
     /* You can add styles specific to screens smaller than 768px here */
     .gallery {
@@ -37,3 +41,43 @@
     }
 }
 
+@media (min-width: 769px) {
+    @media (min-width: 769px) {
+        .gallery {
+            background-color: #f00;
+            align-items: center;
+            margin: 0 auto;
+        }
+        .gallery h2{
+            color: #FFF;
+            text-align: start;
+            width: 25%;
+            font-size: 64px;
+            padding: 20px;
+        }
+        .gallery-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto;
+        }
+        .user-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            justify-content: space-evenly;
+            justify-items: center;
+            align-content: space-evenly;
+            align-items: center;
+            margin: 0 auto
+        }
+        
+        img {
+            max-width: 90%;
+            max-height: 90%;
+            gap: 20px;
+            padding: 20px;
+        }
+    }
+    
+}

@@ -153,6 +153,20 @@
         margin: 0 auto;
     }
 
+    .mainnews-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px; /* Adjust the gap as needed */
+        overflow-x: scroll; /* Enable horizontal scrolling for overflow */
+        white-space: nowrap; /* Prevent images from wrapping to next line */
+        padding: 10px; /* Add some padding for spacing */
+    }
+    
+    .mainnews-container img {
+        max-width: 100%; /* Ensure images don't exceed container width */
+        height: auto; /* Maintain aspect ratio */
+    }
+
     /* Notícias Constante*/
     #news {
         display: grid;
