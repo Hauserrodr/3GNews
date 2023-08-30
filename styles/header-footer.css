@@ -7,7 +7,7 @@ body {
     text-align: center;
 }
 
-header, footer {
+header, #footer {
     background-color: #f00;
     width: 100%;
     display: flex;
@@ -20,13 +20,13 @@ header {
     height: 64px;
 }
 
-footer {
+#footer {
     margin-top: 2%;
     height: 48px;
     flex-shrink: 0;
 }
 
-footer p, #logo {
+#footer p, #logo {
     color: #FFF;
     margin: 0;
     display: flex;
@@ -34,8 +34,8 @@ footer p, #logo {
     align-items: center;
 }
 
-footer p {
-    font-size: 20px;
+#footer p {
+    font-size: 1.3rem;
 }
 
 #logo {
