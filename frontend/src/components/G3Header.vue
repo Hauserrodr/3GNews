@@ -1,0 +1,128 @@
+<template>
+  <div>
+    <div class="red-bar">
+      <h3 v-if="doneLoading" class="text">g3</h3>
+      <div v-if="!doneLoading" class="loading-container">
+        <span class="loader"></span>
+        <p>Carregando, por favor aguarde...</p>
+      </div>
+      <!-- Menu button -->
+      <div class="menu-button" @click="toggleMenu">
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+      </div>
+      <!-- Menu options -->
+      <div v-if="showMenu" class="menu-options">
+        <div @click="goTo('home')">Home</div>
+        <div @click="goTo('gallery')">Gallery</div>
+        <div @click="goTo('about')">About</div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import { useRouter } from 'vue-router';
+
+export default {
+  name: 'G3Header',
+  props: {
+    doneLoading: {
+      type: Boolean,
+      required: true
+    }
+  },
+  data() {
+    return {
+      showMenu: false,
+    };
+  },
+  setup() {
+    const router = useRouter();
+    return { router };
+  },
+  methods: {
+    toggleMenu() {
+      this.showMenu = !this.showMenu;
+    },
+    goTo(routeName) {
+      this.router.push({ name: routeName });
+      this.toggleMenu();
+    }
+  }
+};
+</script>
+
+<style scoped>
+.loading-container {
+  display: flex;
+  color: white;
+  font-style: bold;
+  font-size: 1.5rem;
+  flex-direction: column; /* Stack children vertically */
+  justify-content: center;
+  align-items: center;
+}
+
+.loader {
+  border: 5px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 5px solid #3498db;
+  width: 50px;
+  height: 50px;
+  -webkit-animation: spin 2s linear infinite;
+  animation: spin 2s linear infinite;
+}
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+.red-bar {
+  background-color: red;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 10vh;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  z-index: 1000;
+}
+.text {
+  color: white;
+  font-size: 6vh; /* Adjust font size to be suitable for the new height */
+  font-weight: bold; /* Make the font bold */
+}
+
+.menu-button {
+  position: absolute;
+  top: 4vh;
+  right: 3vh;
+  cursor: pointer;
+}
+.bar {
+  background-color: white;
+  height: 4px;
+  margin: 2px 0;
+  width: 20px;
+}
+
+/* Menu options styles */
+.menu-options {
+  position: absolute;
+  top: 10vh;
+  right: 2vh;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  z-index: 1001;
+}
+.menu-options div {
+  padding: 8px 16px;
+  cursor: pointer;
+}
+</style>
