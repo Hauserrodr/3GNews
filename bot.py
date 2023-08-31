@@ -200,6 +200,14 @@ class G3Bot:
             # Navigate back to the thumbnails
             self.driver.back()
 
+    def _create_thumbnail(self, image_path):
+        image = cv2.imread(image_path)
+        thumbnail_dim = (100, 100)
+        thumbnail = cv2.resize(image, thumbnail_dim, interpolation=cv2.INTER_AREA)
+        thumbnail_path = image_path.replace('.jpeg', '_thumbnail.jpeg')
+        cv2.imwrite(thumbnail_path, thumbnail, [int(cv2.IMWRITE_JPEG_QUALITY), 70])
+        return thumbnail_path
+
     async def generate_images(self, prompt, return_method = 'google_drive_upload', retries = 5, gdrive_folder = 'media_news', filename_prefix = ''):
         tried = 1
         created = True
@@ -219,14 +227,19 @@ class G3Bot:
             return False
         if return_method == 'google_drive_upload':
             google_drive_link_list = []
+            google_drive_thumbnail_link_list = []
             for image_file in os.listdir(os.path.join(script_dir, 'images_generated')):
                 if not image_file.endswith('.jpeg'):
                     continue
                 image_path = os.path.join(script_dir, 'images_generated', image_file)
+                thumbnail_path = self._create_thumbnail(image_path)
                 link = self.gd.upload_file(image_path, str(datetime.date.today())+f'__{filename_prefix}__'+f'_{image_file}', gdrive_path=gdrive_folder)
+                thumbnail_link = self.gd.upload_file(thumbnail_path, str(datetime.date.today())+f'__{filename_prefix}__'+f'_{image_file.replace(".jpeg","_thumbnail.jpeg")}', gdrive_path=gdrive_folder)
                 os.remove(image_path)
+                os.remove(thumbnail_path)
                 google_drive_link_list.append(link)
-            return google_drive_link_list
+                google_drive_thumbnail_link_list.append(thumbnail_link)
+            return google_drive_link_list, google_drive_thumbnail_link_list
         elif return_method == 'return_image_paths':
             return list(os.listdir(os.path.join(script_dir, 'images_generated')))
 
