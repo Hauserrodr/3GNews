@@ -103,6 +103,9 @@
       </div>
       <UserNewsForm/>
     </div>
+    <div id="footer">
+            <p> DISCLAIMER: <i>This page has artistic purporse only. Made by 3G Collective.</i></p>
+    </div>
   </main>
 </template>
 
@@ -656,5 +659,29 @@ export default {
   font-weight: bold;
 }
 
+}
+
+#footer {
+    margin-top: 2%;
+    height: 2vh;
+    flex-shrink: 0;
+    background-color: #f00;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5%;
+}
+
+#footer p, #logo {
+    color: #FFF;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#footer p {
+    font-size: 2.5vw;
 }
 </style>

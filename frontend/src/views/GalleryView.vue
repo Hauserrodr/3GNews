@@ -1,19 +1,29 @@
 <template>
-    <div class="about">
-      <G3Header :doneLoading="true" />
-      <h1>This is a gallery page</h1>
+    <div class="content">
+        <div class="about">
+            <G3Header :doneLoading="true" />
+            <GalleryContainer class="gallery-container"/>
+        </div>
+        <div id="footer">
+            <p> DISCLAIMER: <i>This page has artistic purporse only. Made by 3G Collective.</i></p>
+        </div>
     </div>
 </template>
-  
+
 <script>
 import G3Header from '@/components/G3Header.vue';
+import GalleryContainer from '@/components/GalleryContainer.vue';
+
 export default {
-components: { G3Header }
+components: { G3Header, GalleryContainer }
 }
 </script>
 
-
-<style>
+  
+<style scoped>
+.gallery-container{
+    margin-top: 10vh;
+}
 @media (min-width: 1024px) {
 .about {
     min-height: 100vh;
@@ -21,4 +31,29 @@ components: { G3Header }
     align-items: center;
 }
 }
+
+#footer {
+    margin-top: 2%;
+    height: 2vh;
+    flex-shrink: 0;
+    background-color: #f00;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5%;
+}
+
+#footer p, #logo {
+    color: #FFF;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#footer p {
+    font-size: 2.5vw;
+}
 </style>
+  
