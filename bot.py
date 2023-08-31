@@ -62,6 +62,9 @@ class G3Bot:
                 }
         return cookies
 
+    def _load_regions(self):
+        with open(os.path.join(script_dir, 'regions.json'), 'r') as f:
+            self.regions = json.load(f)
 
     def _load_edge(self):
         logger.info(f'Initializing Edge connection...')
@@ -279,71 +282,200 @@ class G3Bot:
 
     # News generation portion
     async def generate_news_for_today(self):
-        today = datetime.date.today()
+        if datetime.datetime.now().hour < 10:
+            today = datetime.date.today() - datetime.timedelta(days=1)
+        else:
+            today = datetime.date.today()
         day_str = today.strftime('%d/%m/%Y')
-        logger.info(f'Generating news summary for {today}...')
+        logger.info(f'Generating news summary for today ({today})...')
         news = []
-        for region_name in self.config['regions']:
-            bot = await self.create_bot()
-            logger.debug(f'Generating news summary for region {region_name}')
+        for region_dict in self.regions:
+            region_name = region_dict['cidade']
+            news_summary = {'text': 'THROTTLED'}
+            cookie_idx = None
+            while 'THROTTLED' in news_summary['text']:
+                if cookie_idx is not None:
+                    self.cookies[cookie_idx]['usage_count'] += 10
+                bot, cookie_idx = await self.create_bot()
+                logger.debug(f'Generating news summary for region {region_name}')
 
-            # News Summary prompt
-            news_prompt_text = open(os.path.join(script_dir, 'prompts', self.config['news_summary_prompt']['file'])).read()
-            news_prompt = news_prompt_text.format(date_str = day_str, region = region_name)
-            news_summary = await self.message_existing_bot(bot, news_prompt)
-            logger.debug(news_summary['sources'])
+                # News Summary prompt
+                with open(os.path.join(script_dir, 'prompts', self.config['news_summary_prompt']['file']), 'r', encoding='utf-8') as f:
+                    news_prompt_text = f.read()
+                news_prompt = news_prompt_text.format(date_str = day_str+' e até 3 dias anteriores (se houver) ', region = region_name)
+                news_summary = await self.message_existing_bot(bot, news_prompt)
+
+            if 'NÃO ACHEI' in news_summary['text'] or "NÃO ACHEI." in news_summary['text']:
+                news_summary = await self.message_existing_bot(bot, 'Por favor, tente novamente, em sites de notícias mais regionais, como jornais do estado ou até mesmo da cidade. Tente também nos outros sites que listei para você, não esqueça de nenhum. Caso realmente não encontre nada, responda novamente com "NÃO ACHEI"')
+                logger.debug(news_summary['sources'])
+                logger.warning(f'No news was found for region {region_name} and date {day_str}, trying again.')
+                if 'NÃO ACHEI' in news_summary['text'] or "NÃO ACHEI." in news_summary['text']:
+                    logger.warning(f'No news was found for region {region_name} and date {day_str}')
+                    logger.debug(news_summary['sources'])
+                    await bot.close()
+                    continue
+
+            news_text = news_summary['text']
+            news_sources = news_summary['sources']
+            while 'AINDA NÃO TERMINEI' in news_summary['text']:
+                news_summary = await self.message_existing_bot(bot, 'Ok. Me dê o resto das notícias, lembre-se de seguir as instruções corretamente.')
+                news_text = news_text+news_summary['text']
+                news_sources = news_sources+news_summary['sources']
+
+            # News text
+            text_prompt = open(os.path.join(script_dir, 'prompts', self.config['news_text_prompt']['file'])).read()
+            news_text_response = await self.message_existing_bot(bot, text_prompt)
+            news_text_response = news_text_response['text']
+            logger.debug("News text generated:" + news_text_response)
+            parsed_success, parsed_news_text = self.parse_news_text(news_text_response)
+            logger.debug("News text parsed:" + str(parsed_news_text))
+            if not parsed_news_text['news_found'] or not parsed_success:
+                logger.warning(f'No news was found for region {region_name} and date {day_str}')
+                await bot.close()
+                continue
 
             # Headline
-            headline_prompt = open(os.path.join(script_dir, 'prompts', self.config['headline_generation_prompt']['file'])).read()
+            headline_prompt = open(os.path.join(script_dir, 'prompts', self.config['news_headline_generation_prompt']['file'])).read()
             news_headline = await self.message_existing_bot(bot, headline_prompt)
             headline = news_headline['text']
 
             # Image generation prompt
             image_generation_prompt_text = open(os.path.join(script_dir, 'prompts', self.config['image_prompt_generation_prompt']['file'])).read()
             image_prompt = await self.parse_prompt_from_response(await self.message_existing_bot(bot, image_generation_prompt_text))
-            images_links = await self.generate_images(image_prompt, filename_prefix=region_name)
+            images_links, thumbnail_links = await self.generate_images(image_prompt, filename_prefix=region_name)
             news.append({
                 'day_str': day_str,
                 'headline': headline,
                 'region': region_name,
-                'news': news_summary['text'],
-                'news_source': news_summary['source'] if 'source' in news_summary.keys() else None,
+                'news': parsed_news_text['news_text'],
+                'news_response': news_text,
+                'news_source': news_sources,
+                'news_links': parsed_news_text['news_sources'],
                 'image_prompt': image_prompt,
-                'images': images_links
+                'images': images_links,
+                'thumbnails': thumbnail_links
             })
+            await bot.close()
         if os.path.exists(os.path.join(script_dir, 'news_data', 'media_news.json')):
-            with open(os.path.join(script_dir, 'news_data', 'media_news.json'), 'r') as f:
+            with open(os.path.join(script_dir, 'news_data', 'media_news.json'), 'r', encoding='utf-8') as f:
                 self.news_data = json.load(f)
         self.news_data.extend(news)
-        with open(os.path.join(script_dir, 'news_data', 'media_news.json'), 'w') as f:
+        with open(os.path.join(script_dir, 'news_data', 'media_news.json'), 'w', encoding='utf-8') as f:
             json.dump(self.news_data, f, indent=4)
-        self.gd.upload_file(os.path.join(script_dir, 'news_data', 'media_news.json'), 'media_news.json')
+        self.gd.upload_file(os.path.join(script_dir, 'news_data', 'media_news.json'), f'media_news_{datetime.datetime.now()}.json', 'news_data')
+        return news
+
+    # News generation portion
+    async def generate_news_for_date(self, day_str):
+        logger.info(f'Generating news summary for {day_str}...')
+        news = []
+        for region_dict in self.regions:
+            region_name = region_dict['cidade']
+            news_summary = {'text': 'THROTTLED'}
+            cookie_idx = None
+            while 'THROTTLED' in news_summary['text']:
+                if cookie_idx is not None:
+                    self.cookies[cookie_idx]['usage_count'] += 10
+                bot, cookie_idx = await self.create_bot()
+                logger.debug(f'Generating news summary for region {region_name}')
+
+                # News Summary prompt
+                with open(os.path.join(script_dir, 'prompts', self.config['news_summary_prompt']['file']), 'r', encoding='utf-8') as f:
+                    news_prompt_text = f.read()
+                news_prompt = news_prompt_text.format(date_str = day_str, region = region_name)
+                news_summary = await self.message_existing_bot(bot, news_prompt)
+
+            if 'NÃO ACHEI' in news_summary['text'] or "NÃO ACHEI." in news_summary['text']:
+                news_summary = await self.message_existing_bot(bot, 'Por favor, tente novamente, em sites de notícias mais regionais, como jornais do estado ou até mesmo da cidade. Tente também nos outros sites que listei para você, não esqueça de nenhum. Caso realmente não encontre nada, responda novamente com "NÃO ACHEI"')
+                logger.debug(news_summary['sources'])
+                logger.warning(f'No news was found for region {region_name} and date {day_str}, trying again.')
+                if 'NÃO ACHEI' in news_summary['text'] or "NÃO ACHEI." in news_summary['text']:
+                    logger.warning(f'No news was found for region {region_name} and date {day_str}')
+                    logger.debug(news_summary['sources'])
+                    await bot.close()
+                    continue
+
+            news_text = news_summary['text']
+            news_sources = news_summary['sources']
+            while 'AINDA NÃO TERMINEI' in news_summary['text']:
+                news_summary = await self.message_existing_bot(bot, 'Ok. Me dê o resto das notícias, lembre-se de seguir as instruções corretamente.')
+                news_text = news_text+news_summary['text']
+                news_sources = news_sources+news_summary['sources']
+
+            # News text
+            text_prompt = open(os.path.join(script_dir, 'prompts', self.config['news_text_prompt']['file'])).read()
+            news_text_response = await self.message_existing_bot(bot, text_prompt)
+            news_text_response = news_text_response['text']
+            logger.debug("News text generated:" + news_text_response)
+            parsed_success, parsed_news_text = self.parse_news_text(news_text_response)
+            logger.debug("News text parsed:" + str(parsed_news_text))
+            if not parsed_news_text['news_found'] or not parsed_success:
+                logger.warning(f'No news was found for region {region_name} and date {day_str}')
+                await bot.close()
+                continue
+
+            # Headline
+            headline_prompt = open(os.path.join(script_dir, 'prompts', self.config['news_headline_generation_prompt']['file'])).read()
+            news_headline = await self.message_existing_bot(bot, headline_prompt)
+            headline = news_headline['text']
+
+            # Image generation prompt
+            image_generation_prompt_text = open(os.path.join(script_dir, 'prompts', self.config['image_prompt_generation_prompt']['file'])).read()
+            image_prompt = await self.parse_prompt_from_response(await self.message_existing_bot(bot, image_generation_prompt_text))
+            images_links, thumbnail_links = await self.generate_images(image_prompt, filename_prefix=region_name)
+            news.append({
+                'day_str': day_str,
+                'headline': headline,
+                'region': region_name,
+                'news': parsed_news_text['news_text'],
+                'news_response': news_text,
+                'news_source': news_sources,
+                'news_links': parsed_news_text['news_sources'],
+                'image_prompt': image_prompt,
+                'images': images_links,
+                'thumbnails': thumbnail_links
+            })
+            await bot.close()
+        if os.path.exists(os.path.join(script_dir, 'news_data', 'media_news.json')):
+            with open(os.path.join(script_dir, 'news_data', 'media_news.json'), 'r', encoding='utf-8') as f:
+                self.news_data = json.load(f)
+        self.news_data.extend(news)
+        with open(os.path.join(script_dir, 'news_data', 'media_news.json'), 'w', encoding='utf-8') as f:
+            json.dump(self.news_data, f, indent=4, ensure_ascii=False)
+        self.gd.upload_file(os.path.join(script_dir, 'news_data', 'media_news.json'), f'media_news_{datetime.datetime.now()}.json', 'news_data')
         return news
 
     # News generation portion
     async def generate_news_for_user(self, user_name, user_region, user_microregion, user_history):
         today = datetime.date.today()
         logger.info(f'Generating user news prompt for date {today}. User region: {user_region}')
-        bot = await self.create_bot()
+        news_summary = {'text': 'THROTTLED'}
+        cookie_idx = None
+        while 'THROTTLED' in news_summary['text']:
+            if cookie_idx is not None:
+                self.cookies[cookie_idx]['usage_count'] += 10
+            bot, cookie_idx = await self.create_bot()
 
-        # News summary
-        news_prompt_text = open(os.path.join(script_dir, 'prompts', self.config['user_news']['file'])).read()
-        news_prompt = news_prompt_text.format(user_name=user_name, user_region=user_region, user_microregion=user_microregion, user_history=user_history)
-        news_summary = await self.message_existing_bot(bot, news_prompt)
+            # News summary
+            news_prompt_text = open(os.path.join(script_dir, 'prompts', self.config['user_news']['file'])).read()
+            news_prompt = news_prompt_text.format(user_name=user_name, user_region=user_region, user_microregion=user_microregion, user_history=user_history)
+            news_summary = await self.message_existing_bot(bot, news_prompt)
         logger.debug(news_summary['text'])
 
+        logger.info(f'Generating user news headline {today}. User region: {user_region}')
         # Headline
-        headline_prompt = open(os.path.join(script_dir, 'prompts', self.config['headline_generation_prompt']['file'])).read()
+        headline_prompt = open(os.path.join(script_dir, 'prompts', self.config['user_headline_generation_prompt']['file'])).read()
         news_headline = await self.message_existing_bot(bot, headline_prompt)
         headline = news_headline['text']
 
+        logger.info(f'Generating user news image prompt {today}. User region: {user_region}')
         # Image generation
-        image_generation_prompt_text = open(os.path.join(script_dir, 'prompts', self.config['image_prompt_generation_prompt']['file'])).read()
+        image_generation_prompt_text = open(os.path.join(script_dir, 'prompts', self.config['user_image_generation_prompt']['file'])).read()
         image_prompt = await self.parse_prompt_from_response(await self.message_existing_bot(bot, image_generation_prompt_text))
-        images_links = await self.generate_images(image_prompt, filename_prefix=f"{user_name}&&{user_region}&&{user_microregion}", gdrive_folder='user_news')
+        images_links, thumbnail_links = await self.generate_images(image_prompt, filename_prefix=f"{user_name}&&{user_region}&&{user_microregion}", gdrive_folder='user_news')
 
         if os.path.exists(os.path.join(script_dir, 'news_data', 'user_news.json')):
-            with open(os.path.join(script_dir, 'news_data', 'user_news.json'), 'r') as f:
+            with open(os.path.join(script_dir, 'news_data', 'user_news.json'), 'r', encoding='utf-8') as f:
                 self.users_news = json.load(f)
 
         news_info = {
@@ -353,17 +485,19 @@ class G3Bot:
             'user_region': user_region,
             'user_microregion': user_microregion,
             'user_history': user_history,
-            'images': images_links
+            'images': images_links,
+            'thumbnails': thumbnail_links
         }
         self.users_news.append(news_info)
-        with open(os.path.join(script_dir, 'news_data', 'user_news.json'), 'w') as f:
-            json.dump(self.users_news, f, indent=4)
-        self.gd.upload_file(os.path.join(script_dir, 'news_data', 'user_news.json'), 'user_news.json')
+        await bot.close()
+        with open(os.path.join(script_dir, 'news_data', 'user_news.json'), 'w', encoding='utf-8') as f:
+            json.dump(self.users_news, f, indent=4, ensure_ascii=False)
+        self.gd.upload_file(os.path.join(script_dir, 'news_data', 'user_news.json'), f'user_news_{datetime.datetime.now()}.json', 'news_data')
         return news_info
 
     # News get portion
     async def get_news_for_today(self):
-        today = datetime.date.today()
+        today = datetime.date.today()-datetime.timedelta(days=1)
         today_str = today.strftime("%d/%m/%Y")
         today_news = [n for n in self.news_data if n['day_str'] == today_str]
         return today_news
@@ -425,3 +559,17 @@ class G3Bot:
                 break
         logger.success(f'Image prompt for image generation is: {prompt}')
         return prompt.strip('{').strip('[').strip(']').strip('}').strip('\n')
+    
+    def parse_news_text(self, response):
+        news_text = response.split('{')[-1].split('}')[0]
+        try:
+            final_dict = eval('{'+news_text.replace('\n', '')+'}')
+        except:
+            logger.warning(f'Error parsing news text')
+            return False, {
+                'news_found':False,
+                'news_text':[],
+                'news_sources':[],
+            }
+
+        return True, final_dict
