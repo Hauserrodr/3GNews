@@ -31,3 +31,4 @@ scikit-image==0.21.0
 selenium==4.11.2
 uvicorn
 pydrive
+opencv-python

@@ -1,0 +1,42 @@
+[
+    {
+        "day_str": "30/08/2023",
+        "headline": "Desculpe, mas eu não tenho informações suficientes para gerar uma manchete que englobe todas as notícias. Você poderia me fornecer mais detalhes sobre as notícias que deseja incluir na manchete? Assim, eu poderei ajudá-lo melhor. 😊",
+        "user_name": "Hauser",
+        "user_region": "Porto Alegre",
+        "user_microregion": "Petrópolis",
+        "user_history": "Eu estava desenvolvendo o projeto do 3G News quando eu achei um bolinho no chaõ. Eu comi o bolinho, você pode ter certeza disso. Mais tarde, hoje mesmo, tive dor de barriga, não sei porque. O bolinho estava delicioso.",
+        "images": [
+            "https://drive.google.com/uc?export=view&id=1b_EnOyHf0_4BPSSK80hYtSyYHK0_gDvX",
+            "https://drive.google.com/uc?export=view&id=12r9rEakGgFyWIpy2vmAVBSG4-ZdhklTh",
+            "https://drive.google.com/uc?export=view&id=1aWMVlCJtiYaNPt7GFjsoaES4SVMW2I6O",
+            "https://drive.google.com/uc?export=view&id=1482JjMJlpM5gu4VF10ypuHCEctEjQdDN"
+        ],
+        "thumbnails": [
+            "https://drive.google.com/uc?export=view&id=12AUsNdy1mj99EpNqmPQY1Xwtv9W7Ekvx",
+            "https://drive.google.com/uc?export=view&id=1qTDjQWgTd__cK4XnH2eHUFPap1jeCKYw",
+            "https://drive.google.com/uc?export=view&id=1pAV5M6V8rdWHF_Kszfvn8qQha6bKjmtp",
+            "https://drive.google.com/uc?export=view&id=1mD1fyUAf1zyNvQzwo3eqE0kb9dHBTrNc"
+        ]
+    },
+    {
+        "day_str": "30/08/2023",
+        "headline": "\"Jogador de Valheim morre, mas namorado salva o dia\"",
+        "user_name": "Gabs",
+        "user_region": "Porto Alegre",
+        "user_microregion": "Petrópolis",
+        "user_history": "Eu joguei um joguinho chamado Valheim hoje, construí uma casa nele e em seguida morri para um esqueleto. Fiquei triste e voltei para pegar meu corpo, mas morri de novo. Meu namorado então pegou o personagem overpower dele pra me ajudar a pegar as coisas do meu corpo e vivemos felizes para sempre na nossa casa de madeira com uma lareira.",
+        "images": [
+            "https://drive.google.com/uc?export=view&id=1tVSuvRLX4b6hwjxS7zi9L_XYinejcFpa",
+            "https://drive.google.com/uc?export=view&id=1vqhuoNMRuZEOJqNirt3Wzv_QnOJjx6Ft",
+            "https://drive.google.com/uc?export=view&id=1A-CvsanfO5Ky9E9YpyAWFyStn5TBYkH6",
+            "https://drive.google.com/uc?export=view&id=1jN0mNIU5KLbLL9Yaj_YFiDDVVWbAZpco"
+        ],
+        "thumbnails": [
+            "https://drive.google.com/uc?export=view&id=1tTBrQMXWSTO6uIpsiZscGhW2PcAH_Fsn",
+            "https://drive.google.com/uc?export=view&id=16qr3aIoga8vI_PjKlgP2dd_1_DkoOiL_",
+            "https://drive.google.com/uc?export=view&id=1igOjTOR7qApZikNkYWVgsqzH_4C_p26o",
+            "https://drive.google.com/uc?export=view&id=1hd6_osqgA-UvFj7y1oVnscPdBUDtnhp2"
+        ]
+    }
+]
