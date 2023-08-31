@@ -16,7 +16,8 @@ from uvicorn import Config, Server
 import uvicorn
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.middleware import Middleware
-from fastapi.responses import HTMLResponse, JSONResponse
+from fastapi.responses import FileResponse, JSONResponse
+from fastapi.staticfiles import StaticFiles
 
 origins = [
     "*",
@@ -28,6 +29,7 @@ middleware = [
     Middleware(CORSMiddleware, allow_origins=origins)
 ]
 app = FastAPI(middleware=middleware)
+app.mount("/static", StaticFiles(directory=os.path.join(script_dir, "frontend/dist")), name="static")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -37,6 +39,11 @@ app.add_middleware(
 )
 
 # ------------------------------------------------------------
+
+@app.get("/")
+async def root():
+    return FileResponse("frontend/dist/index.html")
+
 @app.get('/generate_user_news')
 async def generate_user_news(user_name:str, user_region:str, user_microregion:str, user_history:str):
     global g3
