@@ -12,7 +12,7 @@ from uvicorn import Config, Server
 import uvicorn
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.middleware import Middleware
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, JSONResponse
 
 origins = [
     "*",
@@ -77,6 +77,20 @@ async def generate_user_news(user_name:str, user_region:str, user_microregion:st
     headers = {'Content-Type': 'application/json; charset=utf-8'}
     return JSONResponse(content=r, headers=headers)
 
+# --------- GET ROUTES
+@app.get('/get_all_news')
+async def get_all_news(news_number = None):
+    global g3
+    try:
+        r = g3.news_data
+        if news_number is not None:
+            if len(r) > int(news_number):
+                r = r[-int(news_number):]
+    except Exception as e:
+        logger.error(e)
+        r = {'error':True}
+    headers = {'Content-Type': 'application/json; charset=utf-8'}
+    return JSONResponse(content=r, headers=headers)
 
 @app.get('/get_news_for_today')
 async def get_news_for_today():

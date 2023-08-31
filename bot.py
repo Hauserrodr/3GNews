@@ -300,8 +300,11 @@ class G3Bot:
         news = [n for n in self.news_data if n['day_str'] == day_str]
         return news
 
+    async def get_all_media_news(self):
+        return self.media_news
+
     async def get_user_news_for_today(self):
-        today = datetime.date.today()
+        today = datetime.date.today()-datetime.timedelta(days=1)
         today_str = today.strftime("%d/%m/%Y")
         today_news = [n for n in self.users_news if n['day_str'] == today_str]
         return today_news
@@ -309,6 +312,9 @@ class G3Bot:
     async def get_user_news_for_date(self, day_str):
         news = [n for n in self.users_news if n['day_str'] == day_str]
         return news
+
+    async def get_all_user_news(self):
+        return self.users_news
 
 
     async def parse_prompt_from_response(self, response):
