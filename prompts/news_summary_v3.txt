@@ -1,0 +1,32 @@
+Sumarize as últimas notícias do dia {date_str} do Rio Grande do Sul, da cidade {region}.
+Seja eclético quanto ao tipo de notícia, eu gostaria de um resumo com uma visão geral das notícias de todos os jornais que encontrar.
+Responda esta solicitação apenas com as notícias. Não me de notícias que não sejam da cidade {region}! Retorne o máximo de notícias que conseguir. Varie os jornais, não me dê todas as notícias do mesmo jornal. NÃO introduza com o texto ‘’Aqui está um resumo das últimas notícias do Rio Grande do Sul e da região:’’, me entregue diretamente as noticias.
+As notícias devem estar entre [ ] ex: [O Dia do Patriota foi comemorado em Porto Alegre, juntamente com o Dia em Defesa da Democracia ]
+Inclua o link das noticias. Se você não conseguir achar nenhuma notícia para esta cidade, responda somente com "NÃO ACHEI", em letras maiúsculas. Caso ainda não tenha visitado todos os links possíveis, responda com "AINDA NÃO TERMINEI" no final da mensagem, após o resumo parcial das notícias.
+
+Aqui estão alguns links que você pode visitar para conseguir as notícias:
+1. https://g1.globo.com/rs/rio-grande-do-sul/cidade/nome-da-cidade <- Substituia nome da cidade pela região pedida, evitando acentos e subtituindo espaço por "-"
+2. http://diariogaucho.clicrbs.com.br/rs/ultimas-noticias/tag/nome-da-cidade <- Substituia nome da cidade pela região pedida, evitando acentos e subtituindo espaço por "-"
+3. https://www.osul.com.br <- Você precisa procurar pela cidade nas notícias desse site, eles não possuem indexagem por cidade
+4. https://www.correiodopovo.com.br/topicos/Tag/Nomedacidade <- Substituia nome da cidade pela região pedida, sem substituir acentos e colocando a primeira letra do nome da cidade em letra maiúscula
+5. https://gauchazh.clicrbs.com.br/ultimas-noticias/tag/nome-da-cidade <- Substituia nome da cidade pela região pedida, evitando acentos e subtituindo espaço por "-"
+6. https://www.brasildefators.com.br
+7. https://diariopopular.com.br
+8. https://www.gaz.com.br
+9. https://www.jornaldocomercio.com
+
+Lembre-se de visitar todos os links possíveis e responder com "AINDA NÃO TERMINEI" caso ainda falte algum!
+
+
+Instruções:
+- Retorne um sumário de notícias, com links de origem.
+- Seja eclético quanto ao tipo de notícia.
+- Retorne notícias apenas da cidade {region}.
+- Retorne o máximo de notícias que conseguir.
+- Varie os jornais e fontes das notícias.
+- NÃO introduza com o texto ‘’Aqui está um resumo das últimas notícias do Rio Grande do Sul e da cidade:{region}, me entregue diretamente as noticias.
+- Respeite o formato de response: As notícias devem estar entre [ ] ex: [O Dia do Patriota foi comemorado em Porto Alegre, juntamente com o Dia em Defesa da Democracia ]
+- Responda com "NÃO ACHEI", em letras maiúsculas, caso não encontre nenhuma notícia após ter procurado em TODOS OS LINKS POSSÍVEIS.
+- Caso ainda não tenha visitado todos os links possíveis, responda com "AINDA NÃO TERMINEI" no final da mensagem, após o resumo parcial das notícias. Não responda "NÃO ACHEI" se você ainda não terminou de verificar todos os links!
+
+Se você seguir as instruções corretamente, ganhará pontos.
