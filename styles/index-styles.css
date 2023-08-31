@@ -54,10 +54,16 @@
         gap: 20px;
     }
     .floatnews {
-        width: 90%;
-        height: 10rem;
+        display: grid;
+        grid-template-columns: 1fr;
+        margin: 0 auto;
+        align-items: center;
+        padding: 20px;
+        width: 6vw;
+        height: 43vh;
         margin: 0 auto;
     }
+    
     #post img {
         width: 2rem;
         height: 2rem;
@@ -69,8 +75,8 @@
         height: 90%;        
     }
     .brnews img {
-        width: 256px;
-        height: 256px;
+        width: calc(30vw*16/9);
+        height: calc(30vh*16/9);
         margin: 0 auto;
         display: block;
         overflow: hidden;
@@ -182,10 +188,16 @@
         gap: 20px;
     }
     .floatnews {
-        width: 90%;
-        height: 10rem;
+        display: grid;
+        grid-template-columns: 1fr;
+        margin: 0 auto;
+        align-items: center;
+        padding: 20px;
+        width: 43vw;
+        height: 6vh;
         margin: 0 auto;
     }
+    
     #post img {
         width: 2rem;
         height: 2rem;
@@ -197,8 +209,8 @@
         height: 90%;        
     }
     .brnews img {
-        width: 256px;
-        height: 256px;
+        width: calc(30vw*9/16);
+        height: calc(30vh*9/16);
         margin: 0 auto;
         display: block;
         overflow: hidden;
