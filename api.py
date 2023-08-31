@@ -12,7 +12,7 @@ from uvicorn import Config, Server
 import uvicorn
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.middleware import Middleware
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, JSONResponse
 
 origins = [
     "*",
@@ -36,49 +36,125 @@ app.add_middleware(
 @app.get('/generate_image')
 async def generate_image(prompt: str = Query(..., description='Generate an image based on your prompt.')):
     global g3
-    r = await g3.generate_images(prompt)
-    return r
+    try:
+        r = await g3.generate_images(prompt)
+    except Exception as e:
+        logger.error(e)
+        r = {'error':True}
+    headers = {'Content-Type': 'application/json; charset=utf-8'}
+    return JSONResponse(content=r, headers=headers)
 
 @app.get('/generate_news_for_today')
 async def generate_news_for_today():
     global g3
-    r = await g3.generate_news_for_today()
-    return r
+    try:
+        r = await g3.generate_news_for_today()
+    except Exception as e:
+        logger.error(e)
+        r = {'error':True}
+    headers = {'Content-Type': 'application/json; charset=utf-8'}
+    return JSONResponse(content=r, headers=headers)
+
+@app.get('/generate_news_for_date')
+async def generate_news_for_date(day_str: str):
+    global g3
+    try:
+        r = await g3.generate_news_for_date(day_str)
+    except Exception as e:
+        logger.error(e)
+        r = {'error':True}
+    headers = {'Content-Type': 'application/json; charset=utf-8'}
+    return JSONResponse(content=r, headers=headers)
 
 @app.get('/generate_user_news')
 async def generate_user_news(user_name:str, user_region:str, user_microregion:str, user_history:str):
     global g3
-    r = await g3.generate_news_for_user(user_name, user_region, user_microregion, user_history)
-    return r
+    try:
+        r = await g3.generate_news_for_user(user_name, user_region, user_microregion, user_history)
+    except Exception as e:
+        logger.error(e)
+        r = {'error':True}
+    headers = {'Content-Type': 'application/json; charset=utf-8'}
+    return JSONResponse(content=r, headers=headers)
+
+# --------- GET ROUTES
+@app.get('/get_all_news')
+async def get_all_news(news_number = None):
+    global g3
+    try:
+        r = g3.news_data
+        if news_number is not None:
+            if len(r) > int(news_number):
+                r = r[-int(news_number):]
+    except Exception as e:
+        logger.error(e)
+        r = {'error':True}
+    headers = {'Content-Type': 'application/json; charset=utf-8'}
+    return JSONResponse(content=r, headers=headers)
 
 @app.get('/get_news_for_today')
 async def get_news_for_today():
     global g3
-    r = await g3.get_news_for_today()
-    return r
+    try:
+        r = await g3.get_news_for_today()
+    except Exception as e:
+        logger.error(e)
+        r = {'error':True}
+    headers = {'Content-Type': 'application/json; charset=utf-8'}
+    return JSONResponse(content=r, headers=headers)
 
 @app.get('/get_news_for_date')
 async def get_news_for_date(day_str: str):
     global g3
-    r = await g3.get_news_for_date(day_str)
-    return r
+    try:
+        r = await g3.get_news_for_date(day_str)
+    except Exception as e:
+        logger.error(e)
+        r = {'error':True}
+    headers = {'Content-Type': 'application/json; charset=utf-8'}
+    return JSONResponse(content=r, headers=headers)
 
 @app.get('/get_user_news_for_today')
 async def get_user_news_for_today():
     global g3
-    r = await g3.get_user_news_for_today()
-    return r
+    try:
+        r = await g3.get_user_news_for_today()
+    except Exception as e:
+        logger.error(e)
+        r = {'error':True}
+    headers = {'Content-Type': 'application/json; charset=utf-8'}
+    return JSONResponse(content=r, headers=headers)
 
 @app.get('/get_user_news_for_date')
 async def get_user_news_for_date(day_str: str):
     global g3
-    r = await g3.get_user_news_for_date(day_str)
-    return r
+    try:
+        r = await g3.get_user_news_for_date(day_str)
+    except Exception as e:
+        logger.error(e)
+        r = {'error':True}
+    headers = {'Content-Type': 'application/json; charset=utf-8'}
+    return JSONResponse(content=r, headers=headers)
+
+@app.get('/get_all_user_news')
+async def get_all_user_news():
+    global g3
+    try:
+        r = await g3.get_all_user_news()
+    except Exception as e:
+        logger.error(e)
+        r = {'error':True}
+    headers = {'Content-Type': 'application/json; charset=utf-8'}
+    return JSONResponse(content=r, headers=headers)
 
 @app.get('/get_news_html')
 async def get_news_html():
     global g3
-    r = await g3.generate_news_for_today()
+    try:
+        r = await g3.generate_news_for_today()
+    except Exception as e:
+        logger.error(e)
+        r = {'error':True}
     html = '''<div style="font-family: Arial, sans-serif;">'''
     for news_item in r:
         region = news_item['region']
@@ -96,8 +172,16 @@ async def list_googledrive_files():
     files = g3.gd.list_files()
     return files
 
+async def call_generations():
+    pass
+
 if __name__ == "__main__":
-    uvicorn.run(app='api:app', host="0.0.0.0", port=7777, reload=False)
+    # uvicorn.run(app='api:app', host="0.0.0.0", port=7777, reload=False)
+    loop = asyncio.new_event_loop()
+    config = Config(app=app, loop=loop, host="0.0.0.0", port=7777, reload=False)
+    server = Server(config)
+    loop.create_task(call_generations())
+    loop.run_until_complete(server.serve())
 else:
     # Bot related modules
     import bot

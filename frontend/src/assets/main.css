@@ -1,35 +1,44 @@
 @import './base.css';
 
-#app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-
-  font-weight: normal;
+/* Add new styles for user news section */
+.user-news-section {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2rem;
 }
 
-a,
-.green {
-  text-decoration: none;
-  color: hsla(160, 100%, 37%, 1);
-  transition: 0.4s;
+.user-news-container {
+  width: 40%;
 }
 
-@media (hover: hover) {
-  a:hover {
-    background-color: hsla(160, 100%, 37%, 0.2);
-  }
+.user-news-images {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
 }
 
-@media (min-width: 1024px) {
-  body {
-    display: flex;
-    place-items: center;
-  }
+.user-news-images img {
+  width: 30%;
+  height: auto;
+}
 
-  #app {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    padding: 0 2rem;
-  }
+.next-news-container {
+  width: 50%;
+}
+
+.next-news-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.next-news-bar {
+  width: 10px;
+  height: 100%;
+  background-color: var(--color-border);
+  margin-right: 0.5rem;
+}
+
+.next-news-text {
+  margin: 0;
 }

@@ -31,26 +31,49 @@ msedge.exe --remote-debugging-port 9999
 python api.py
 ```
 
-### TODO
+### TODO - Backend
+- Make an API just for accept image generation requests and save them in a list, this is needed because the api "freezes" when it receives a request and this is not good is there's a lot of users using our service
+- Make the loop for generating news for today every 5AM
+
+### TODO - Prompt Strategy
+- Develop a pipeline that searches for specific links when searching for the news
+
+### TODO - Frontend
+- Finish Gallery Page
+- Finish About Page
+- Stress test pages with multiple access
+
+### DONE
 - Implement user image generation
-    Basically this feature allows users to generate images based on the daily stories they provide. The story is used for generating an image prompt, which is then feeded into DALL-E2 API (via Bing) to generate 4 images about the user narrative. >>> DONE
+    Basically this feature allows users to generate images based on the daily stories they provide. The story is used for generating an image prompt, which is then feeded into DALL-E2 API (via Bing) to generate 4 images about the user narrative.
+
 - Implement daily news retrieve endpoint
-    Since it's the backend job to create the daily news every day at 6AM, we should have a route to just retrieve the images from google drive instead of generating them everything  the endpoint is accessed. >>> DONE
+    Since it's the backend job to create the daily news every day at 6AM, we should have a route to just retrieve the images from google drive instead of generating them everything  the endpoint is accessed.
+
 - Improve news generation pipeline
-    - Use the LLM to double check if the message really has news.
     - Make sure the news does not have an introduction message, like "Here are the news for...".
-    - Make sure the image generation prompt really is a prompt.
-    - MAYBE: Check the link of every news returned and ask questions to double check if the news are really from today and really from the region asked.
-    - MAYBE: Ask for more news
-- Improve prompt generation message
-    The prompts are too descriptive right now, maybe a way to improve is to give more examples.
 - Implement user news retrieve endpoint
-    We should have this endpoint for retrieving every user's daily news stories from Google Drive. >>> DONE
+    We should have this endpoint for retrieving every user's daily news stories from Google Drive.
+
 - Save data about the news locally (or at least the url for the google drive archive)
-    We should save data about when the news was generated, the users news, etc. >>> DONE
+    We should save data about when the news was generated, the users news, etc.
 
+- Wait for right element to show up in the html when generating image, instead of waiting hardcoded time.
 
-EXTRAS
-- Get current reward counter in the bing website
-- Implement profile change in google chrome
+- Create a text describing the news, instead of just a list of news links.
+
+- Improve news generation pipeline
+    - Make sure the image generation prompt really is a prompt.
+    - Ask for more news
+
+- Improve image prompt generation message
+    The prompts are too descriptive right now, maybe a way to improve is to give more examples.
+
+- Try selenium browser with --headless
+    - Tried and it does not work, since the send_keys() function does not work properly.
+
 - Start chrome with debugging port from script
+
+- Update cidades and bairros .json
+
+- Modify today news generation prompt to use "the last 3 days" instead of a specific date
