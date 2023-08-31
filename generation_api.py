@@ -3,6 +3,7 @@ import asyncio
 from pathlib import Path
 import datetime
 import pytz
+import os
 import json
 
 # Find this script directory
@@ -85,12 +86,12 @@ async def call_generations():
     tz = pytz.timezone('America/Sao_Paulo')
     news_generation_datetime = datetime.time(5,15,0,0,tz)
     try:
-        with open('./news_request/user_news_requests.json', 'r', encoding='utf-8') as f:
+        with open(os.path.join(script_dir, 'news_request/user_news_requests.json'), 'r', encoding='utf-8') as f:
             user_requests = json.load(f)
     except Exception as e:
         logger.warning(f'Error opening user_news_requests.json. This is normal if it is the first time running the API, but otherwise this is a problem.')
         logger.error(e)
-        with open('./news_request/user_news_requests.json', 'w', encoding='utf-8') as f:
+        with open(os.path.join(script_dir, 'news_request/user_news_requests.json'), 'w', encoding='utf-8') as f:
             json.dump([], f)
     while True:
         now = datetime.datetime.now(tz=tz)
@@ -107,11 +108,11 @@ async def call_generations():
             else:
                 print(abs((now - datetime.datetime.combine(datetime.date.today(), news_generation_datetime)).total_seconds()), end='\r')
         else:
-            with open('./news_request/user_news_requests.json', 'r', encoding='utf-8') as f:
+            with open(os.path.join(script_dir, 'news_request/user_news_requests.json'), 'r', encoding='utf-8') as f:
                 user_requests = json.load(f)
             if len(user_requests) > 0:
                 current_request = user_requests.pop(0)
-                with open('./news_request/user_news_requests.json', 'w', encoding='utf-8') as f:
+                with open(os.path.join(script_dir, 'news_request/user_news_requests.json'), 'w', encoding='utf-8') as f:
                     json.dump(user_requests, f)
                 logger.info(f'Generating news for request {current_request}')
                 try:
