@@ -50,3 +50,6 @@ div#content {
     padding: 20px;
     margin: auto;
 }
+#quote {
+    text-align: end;
+}
