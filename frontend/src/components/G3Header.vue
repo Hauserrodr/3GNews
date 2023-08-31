@@ -60,7 +60,7 @@ export default {
   color: white;
   font-style: bold;
   font-size: 1.5rem;
-  flex-direction: column; /* Stack children vertically */
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
@@ -74,14 +74,17 @@ export default {
   -webkit-animation: spin 2s linear infinite;
   animation: spin 2s linear infinite;
 }
+
 @-webkit-keyframes spin {
   0% { -webkit-transform: rotate(0deg); }
   100% { -webkit-transform: rotate(360deg); }
 }
+
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+
 .red-bar {
   background-color: red;
   display: flex;
@@ -93,10 +96,11 @@ export default {
   top: 0;
   z-index: 1000;
 }
+
 .text {
   color: white;
-  font-size: 6vh; /* Adjust font size to be suitable for the new height */
-  font-weight: bold; /* Make the font bold */
+  font-size: 6vh;
+  font-weight: bold;
 }
 
 .menu-button {
@@ -105,14 +109,14 @@ export default {
   right: 3vh;
   cursor: pointer;
 }
-.bar {
-  background-color: white;
-  height: 4px;
-  margin: 2px 0;
-  width: 20px;
-}
 
-/* Menu options styles */
+.bar {
+    background-color: white;
+    height: 0.6vh;
+    margin: 1vh;
+    width: 6vh;
+  }
+
 .menu-options {
   position: absolute;
   top: 10vh;
@@ -121,8 +125,47 @@ export default {
   border: 1px solid #ccc;
   z-index: 1001;
 }
+
 .menu-options div {
   padding: 8px 16px;
   cursor: pointer;
 }
+
+/* Media Query for small screens */
+@media (max-width: 600px) {
+  .red-bar {
+    flex-direction: column;
+    height: 10vh;
+  }
+
+  .text {
+    font-size: 6vh;
+  }
+
+  .menu-button {
+    top: 2vh;
+    right: 2vh;
+  }
+
+  .menu-options {
+    top: 20vh;
+    right: 1vh;
+  }
+}
+
+/* Media Query for larger screens */
+@media (min-width: 1200px) {
+  .text {
+    font-size: 7vh;
+  }
+  .menu-button {
+    top: 20%;
+    right: 2vh;
+  }
+
+  .menu-options {
+    right: 4vh;
+  }
+}
+
 </style>

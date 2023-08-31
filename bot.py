@@ -18,7 +18,7 @@ import gdm
 script_dir = Path( __file__ ).parent.absolute()
 
 class G3Bot:
-    def __init__(self, browser='chrome', start_browser = True):
+    def __init__(self, browser='edge', start_browser = False):
         logger.info(f'Initiating G3 Bot, please stand by...')
         self.config = self._load_config()
         self.cookies = self._load_cookies()
@@ -63,7 +63,7 @@ class G3Bot:
         return cookies
 
     def _load_regions(self):
-        with open(os.path.join(script_dir, 'regions.json'), 'r') as f:
+        with open(os.path.join(script_dir, 'regions.json'), 'r', encoding='utf-8') as f:
             self.regions = json.load(f)
 
     def _load_edge(self):

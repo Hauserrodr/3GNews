@@ -80,13 +80,13 @@
         </div>
         <!-- Most Recent User News -->
         <div class="recent-news" v-if="userNews && userNews.length > 0">
-          <h3 style="font-size:2.5rem; font-style:bold;width:90%;text-transform: uppercase">{{ userNews[0].headline }}</h3>
-          <h4 style="font-size:1rem; font-style:bold;">{{ userNews[0].user_name }} - {{ userNews[0].user_region }},  {{ userNews[0].day_str }}</h4>
+          <h3 class="recent-news-headline">{{ userNews[0].headline }}</h3>
+          <h4 class="recent-news-info">{{ userNews[0].user_name }} - {{ userNews[0].user_region }},  {{ userNews[0].day_str }}</h4>
           <img v-lazy="userNews[0].images[0]" style="width:45%; padding-right:5px" @load="imageLoaded">
           <img v-lazy="userNews[0].images[1]" style="width:45%; padding-right:5px" @load="imageLoaded">
           <img v-lazy="userNews[0].images[2]" style="width:45%; padding-right:5px" @load="imageLoaded">
           <img v-lazy="userNews[0].images[3]" style="width:45%; padding-right:5px" @load="imageLoaded">
-          <h2 style="width:90%" v-if="userNews[0].user_short_history">
+          <h2 style="width:90%; self-align:center; text-align:justify; padding:1vw;" v-if="userNews[0].user_short_history">
                 {{ userNews[0].user_short_history }}
                 <a v-if="userNews[0].isTruncated" 
                   href="#" 
@@ -97,7 +97,7 @@
               </h2>
 
               <h2 style="width:90%" v-else>
-                {{ userNews[0].user_history }} 
+                {{ userNews[0].user_history }}
               </h2>
         </div>
       </div>
@@ -262,18 +262,17 @@ export default {
 <style>
 
 .content {
-  min-height: 100vh;
   position: relative; 
 }
 
 .header-title {
   text-align: center;
-  padding-top: 6rem;
+  padding-top: 10vh;
   font-size: 3rem;
 }
 .user-news-title {
   text-align: center;
-  padding-top: 1rem;
+  padding-top: 3vh;
   font-size: 3rem;
 }
 
@@ -344,13 +343,13 @@ export default {
   border: none;
   cursor: pointer;
   padding: 0;
-  width: 40px; /* Adjust to fit the circle size */
-  height: 40px; /* Adjust to fit the circle size */
+  width: 40px;
+  height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 50%; /* Makes the button a circle */
-  pointer-events: all; /* Makes the button clickable */
+  border-radius: 50%;
+  pointer-events: all;
 }
 
 .arrow-button img {
@@ -425,16 +424,6 @@ export default {
   animation: scrollHeadline 30s linear infinite;
 }
 
-
-@keyframes scrollHeadline {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-100%);
-  }
-}
-
 /* Modal styles */
 .modal {
   display: block; /* Hidden by default */
@@ -503,8 +492,8 @@ export default {
 }
 
 .thumbnail {
-  width: 20rem;  /* Adjust as needed */
-  height: 20rem; /* Adjust as needed */
+  width: 20vw;  /* Adjust as needed */
+  height: 20vw; /* Adjust as needed */
   margin-right: 10px;
 }
 
@@ -530,6 +519,18 @@ export default {
   -webkit-animation: spin 2s linear infinite; /* Safari */
   animation: spin 2s linear infinite;
 }
+.recent-news-headline{
+  font-size:3vh; font-style:bold;width:90%;text-transform: uppercase;
+}
+
+@keyframes scrollHeadline {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
 
 @-webkit-keyframes spin {
   0% { -webkit-transform: rotate(0deg); }
@@ -541,4 +542,71 @@ export default {
   100% { transform: rotate(360deg); }
 }
 
+/* Media queries for responsiveness */
+@media (max-width: 768px) {
+
+.header-title {
+  font-size: 2rem;
+  padding-top: 12vh;
+  padding-bottom: 2vh;
+}
+.user-news-title{
+  font-size: 2rem;
+  padding-top: 3vh;
+}
+
+.news-section,
+.user-news-section {
+  flex-direction: column-reverse;
+  align-items: center;
+}
+
+.image-scroll-container,
+.next-news,
+.recent-news {
+  width: 100%;
+}
+
+.image-container{
+  flex: 0 0 100%;
+  flex-direction: column;
+}
+
+.news-item {
+  flex: 0 0 100%;
+  flex-direction: column;
+  margin-top: 20vh;
+}
+
+.arrow-button img {
+  width: 15px;
+  height: 15px;
+}
+
+.region,
+.date {
+  font-size: 0.7rem;
+  padding: 0.2rem;
+}
+
+.thumbnail {
+  width: 60vw;  /* Adjust as needed */
+  height: 60vw; /* Adjust as needed */
+  margin-right: 10px;
+}
+.recent-news-headline{
+  font-size:6vw;
+  font-style:bold;
+  width:90%;
+  text-transform: uppercase;
+  margin-left:3vw;
+  margin-right:3vw;
+}
+.recent-news-info{
+  font-size:1rem;
+  font-style:bold;
+  margin-left:3vw;
+  margin-right:3vw;
+}
+}
 </style>
