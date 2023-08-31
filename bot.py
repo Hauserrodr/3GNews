@@ -109,16 +109,20 @@ class G3Bot:
         tried = 1
         while True:
             try:
-                bot = await self.create_bot()
+                bot, cookie_idx = await self.create_bot()
                 response = await bot.ask(prompt=message, conversation_style=style, simplify_response=True)
                 await bot.close()
                 break
             except Exception as e:
+                if 'throttled' in str(e):
+                    logger.warning(f'Cookie has reached its usage limit! Adding 10 to its count.')
+                    self.cookies[cookie_idx]['usage_count'] += 10
                 tried+=1
                 if tried <= retries:
                     logger.error(f'Error messaging bot: {e}. Trying again for the {tried} time.')
                 else:
-                    response = False
+                    response = {'text': '', 'sources': ''}
+                    await bot.close()
                     break
         return response
 
@@ -129,17 +133,25 @@ class G3Bot:
                 response = await bot.ask(prompt=message, conversation_style=style, simplify_response=True)
                 break
             except Exception as e:
+                if 'throttled' in str(e):
+                    logger.warning(f'Cookie has reached its usage limit! Adding 10 to its count.')
+                    return {'text': 'THROTTLED', 'sources': ''}
                 tried+=1
                 if tried <= retries:
                     logger.error(f'Error messaging bot: {e}. Trying again for the {tried} time.')
                 else:
-                    response = False
+                    response = {'text': '', 'sources': ''}
                     break
         return response
 
-    async def create_bot(self):
-        bot = await Chatbot.create(cookies=self.select_cookie())
-        return bot
+    async def create_bot(self, cookies=None):
+        if cookies is None:
+            cookies = self.select_cookie()
+            bot = await Chatbot.create(cookies=cookies)
+        else:
+            bot = await Chatbot.create(cookies=cookies)
+        selected_cookies_idx = [idx for idx, c in self.cookies.items() if c['cookies'] == cookies][0]
+        return bot, selected_cookies_idx
 
     # Image generation portion
 
