@@ -235,4 +235,33 @@ button:hover {
     color: white; /* White text */
 }
 
+@media (max-width: 768px) {
+  .userNewsForm {
+    display: block; /* Stack the columns vertically */
+  }
+
+  .first-column, .second-column {
+    width: 100%; /* Full width */
+  }
+
+  .input-fields {
+    /* Move it to the top */
+    order: -1;
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+  .news-input-div {
+    width: 100%; /* Make textarea full width */
+    height: 60vh; /* Make textarea full width */
+  }
+
+  .char-counter {
+    margin-top: -30px; /* Adjust according to your needs */
+  }
+  button {
+    width: 100%
+  }
+}
+
 </style>
