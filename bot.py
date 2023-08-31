@@ -18,7 +18,7 @@ import gdm
 script_dir = Path( __file__ ).parent.absolute()
 
 class G3Bot:
-    def __init__(self, browser='edge', start_browser = False):
+    def __init__(self, browser='chrome', start_browser = True):
         logger.info(f'Initiating G3 Bot, please stand by...')
         self.config = self._load_config()
         self.cookies = self._load_cookies()
