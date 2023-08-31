@@ -172,8 +172,16 @@ async def list_googledrive_files():
     files = g3.gd.list_files()
     return files
 
+async def call_generations():
+    pass
+
 if __name__ == "__main__":
-    uvicorn.run(app='api:app', host="0.0.0.0", port=7777, reload=False)
+    # uvicorn.run(app='api:app', host="0.0.0.0", port=7777, reload=False)
+    loop = asyncio.new_event_loop()
+    config = Config(app=app, loop=loop, host="0.0.0.0", port=7777, reload=False)
+    server = Server(config)
+    loop.create_task(call_generations())
+    loop.run_until_complete(server.serve())
 else:
     # Bot related modules
     import bot
