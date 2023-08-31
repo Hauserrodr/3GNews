@@ -1,0 +1,18 @@
+Sumarize as últimas notícias do dia {date_str} do Rio Grande do Sul, da região {region}.
+Seja eclético quanto ao tipo de notícia, eu gostaria de um resumo com uma visão geral das notícias de todos os jornais que encontrar.
+Responda esta solicitação apenas com as notícias. Não me de notícias que não sejam da cidade {region}! Retorne o máximo de notícias que conseguir. Varie os jornais, não me dê todas as notícias do mesmo jornal. NÃO introduza com o texto ‘’Aqui está um resumo das últimas notícias do Rio Grande do Sul e da região:’’, me entregue diretamente as noticias.
+As notícias devem estar entre [ ] ex: [O Dia do Patriota foi comemorado em Porto Alegre, juntamente com o Dia em Defesa da Democracia ]
+Inclua o link das noticias. Se você não conseguir achar nenhuma notícia para esta cidade e este dia, responda somente com "NÃO ACHEI", em letras maiúsculas.
+
+Instruções:
+- Retorne um sumário de notícias, com links de origem.
+- Seja eclético quanto ao tipo de notícia.
+- Retorne notícias apenas do dia {date_str}.
+- Retorne notícias apenas da cidade {region}.
+- Retorne o máximo de notícias que conseguir.
+- Varie os jornais e fontes das notícias.
+- NÃO introduza com o texto ‘’Aqui está um resumo das últimas notícias do Rio Grande do Sul e da região:’’, me entregue diretamente as noticias.
+- Respeite o formato de response: As notícias devem estar entre [ ] ex: [O Dia do Patriota foi comemorado em Porto Alegre, juntamente com o Dia em Defesa da Democracia ]
+- Responda com "NÃO ACHEI", em letras maiúsculas, caso não encontre nenhuma notícia.
+
+Se você seguir as instruções à risca, ganhará pontos e vencerá o jogo.
