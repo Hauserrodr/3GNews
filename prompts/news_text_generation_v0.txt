@@ -1,0 +1,6 @@
+Ok, now that we searched for every news, let's generate a dictionary to append to our data in our python script. Answer in this format:
+{
+    'news_found':, #True | False <- depends on wheter you found any news.
+    'news_text':, #Text in portuguese containing every news found.
+    'news_sources':, #Every news links visited that had any news used in the news_text.
+}
