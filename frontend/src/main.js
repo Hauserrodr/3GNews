@@ -1,6 +1,8 @@
 import VueLazyload from 'vue-lazyload'
 
 import './assets/main.css'
+import errorImg from './assets/error.svg'
+import loadingImg from './assets/load-loading.gif'
 
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
@@ -12,10 +14,10 @@ const app = createApp(App)
 app.use(createPinia())
 app.use(router)
 app.use(VueLazyload, {
-    preLoad: 1.3,  // Preload height ratio, default is 1.3
-    error: 'path/to/error/image.png',  // Path to error image
-    loading: 'path/to/loading/gif_or_image.gif',  // Path to a loading image/gif
-    attempt: 1,  // Number of attempts, default is 3
+    preLoad: 1.3,
+    error: errorImg,
+    loading: loadingImg,
+    attempt: 3,  // Number of attempts, default is 3
     transition: "fade"
   })
 app.mount('#app')

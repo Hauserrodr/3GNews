@@ -29,7 +29,7 @@ middleware = [
     Middleware(CORSMiddleware, allow_origins=origins)
 ]
 app = FastAPI(middleware=middleware)
-app.mount("/static", StaticFiles(directory=os.path.join(script_dir, "frontend/dist")), name="static")
+app.mount("/home", StaticFiles(directory=os.path.join(script_dir, "frontend/dist")), name="home")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
