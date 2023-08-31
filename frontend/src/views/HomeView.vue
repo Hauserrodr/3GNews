@@ -143,7 +143,7 @@ export default {
       });
     };
     
-    const fetchUserNews = fetch('http://localhost:7777/get_all_user_news')
+    const fetchUserNews = fetch('http://54.197.18.85:7777/get_all_user_news')
       .then(response => response.json())
       .then(data => {
         this.userNews = data.reverse();
@@ -163,7 +163,7 @@ export default {
         });
       });
       
-    const fetchAllNews = fetch('http://localhost:7777/get_all_news?news_number=20')
+    const fetchAllNews = fetch('http://54.197.18.85:7777/get_all_news?news_number=20')
       .then(response => response.json())
       .then(data => {
         this.newsItems = data.reverse();

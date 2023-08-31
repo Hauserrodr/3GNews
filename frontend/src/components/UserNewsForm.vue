@@ -69,7 +69,7 @@ export default {
                     user_history: this.userHistory
                 };
 
-                const response = await axios.get('http://127.0.0.1:7777/generate_user_news', { params });
+                const response = await axios.get('http://54.197.18.85:7777/generate_user_news', { params });
 
                 if (response.data.error) {
                     console.error('Error from server:', response.data);

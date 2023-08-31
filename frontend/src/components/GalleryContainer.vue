@@ -29,7 +29,7 @@
     },
     methods: {
       async fetchData() {
-        const apiUrl = "http://localhost:7777/get_all_user_news";
+        const apiUrl = "http://54.197.18.85:7777/get_all_user_news";
         try {
           const response = await fetch(apiUrl);
           const data = await response.json();
