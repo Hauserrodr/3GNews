@@ -2,19 +2,23 @@ name: "G3Bot"
 version: 1.0
 description: "A friendly AI assistant"
 news_summary_prompt:
-  version: 1.0
-  file: 'news_summary_v1.txt'
+  version: 3.0
+  file: 'news_summary_v3.txt'
+news_text_prompt:
+  version: 0.0
+  file: 'news_text_generation_v0.txt'
 user_news:
   version: 0.0
   file: 'user_news_v0.txt'
 image_prompt_generation_prompt:
-  version: 0.0
-  file: 'image_prompt_generation_v0.txt'
-user_prompt_generation_prompt:
-  version: 0.0
-  file: 'user_prompt_generation_v0.txt'
-headline_generation_prompt:
   version: 1.0
-  file: 'headline_generation_v1.txt'
-regions: ['Porto Alegre', 'Viamão']
-# regions: ['Porto Alegre', 'Viamão', 'Alvorada', 'Cachoeirinha', 'São Leopoldo', 'Gramado', 'Canela', 'Carlos Barbosa', 'Pelotas', 'São Jorge']
+  file: 'image_prompt_generation_v1.txt'
+user_image_generation_prompt:
+  version: 1.0
+  file: 'user_image_prompt_generation_v1.txt'
+news_headline_generation_prompt:
+  version: 1.0
+  file: 'news_headline_generation_v1.txt'
+user_headline_generation_prompt:
+  version: 1.0
+  file: 'user_headline_generation_v1.txt'
