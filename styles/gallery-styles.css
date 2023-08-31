@@ -55,11 +55,13 @@
         margin: 0 auto
     }
     
-    img {
+    .user-container>img {
         max-width: 90%;
         max-height: 90%;
         gap: 20px;
         margin: 0 auto;
+        border: #FFF solid 2px;
+
     }
 }
 
