@@ -32,9 +32,8 @@ python api.py
 ```
 
 ### TODO - Backend
-- Make an API just for accept image generation requests and save them in a list, this is needed because the api "freezes" when it receives a request and this is not good is there's a lot of users using our service
-- Make the loop for generating news for today every 5AM
-
+- Nothing for now. Have any ideas? Open an issue! We will answer as soon as possible.
+- Are you a developer and want to contribute? Open a pull request! Everybody is invited to join, even if your name does not start with a G.
 ### TODO - Prompt Strategy
 - Develop a pipeline that searches for specific links when searching for the news
 
@@ -77,3 +76,7 @@ python api.py
 - Update cidades and bairros .json
 
 - Modify today news generation prompt to use "the last 3 days" instead of a specific date
+
+- Make an API just for accept image generation requests and save them in a list, this is needed because the api "freezes" when it receives a request and this is not good is there's a lot of users using our service
+
+- Make the loop for generating news for today every 5AM
