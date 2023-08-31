@@ -18,29 +18,33 @@ import gdm
 script_dir = Path( __file__ ).parent.absolute()
 
 class G3Bot:
-    def __init__(self, browser='chrome'):
+    def __init__(self, browser='chrome', start_browser = True):
         logger.info(f'Initiating G3 Bot, please stand by...')
         self.config = self._load_config()
         self.cookies = self._load_cookies()
+        self._load_regions()
         self.gd = gdm.GoogleDriveManager()
-        if browser == 'selenium':
-            self.driver = self._load_selenium()
+        if not start_browser:
+            if browser == 'edge':
+                self.driver = self._load_edge()
+            else:
+                self.driver = self._load_chrome()
         else:
-            self.driver = self._load_chrome()
+            self.driver = self._start_chrome()
         logger.success(f'G3 Bot Loaded! Say hello to {self.config["name"]} {self.config["version"]}.')
         if os.path.exists(os.path.join(script_dir, 'news_data', 'media_news.json')):
-            with open(os.path.join(script_dir, 'news_data', 'media_news.json'), 'r') as f:
+            with open(os.path.join(script_dir, 'news_data', 'media_news.json'), 'r', encoding='utf-8') as f:
                 self.news_data = json.load(f)
         else:
             self.news_data = []
         if os.path.exists(os.path.join(script_dir, 'news_data', 'user_news.json')):
-            with open(os.path.join(script_dir, 'news_data', 'user_news.json'), 'r') as f:
+            with open(os.path.join(script_dir, 'news_data', 'user_news.json'), 'r', encoding='utf-8') as f:
                 self.users_news = json.load(f)
         else:
             self.users_news = []
 
     def _load_config(self):
-        with open(os.path.join(script_dir, 'config.yml'), "r") as stream:
+        with open(os.path.join(script_dir, 'config.yml'), "r", encoding='utf-8') as stream:
             try:
                 return yaml.safe_load(stream)
             except yaml.YAMLError as exc:
@@ -58,16 +62,34 @@ class G3Bot:
                 }
         return cookies
 
-    def _load_selenium(self):
+
+    def _load_edge(self):
+        logger.info(f'Initializing Edge connection...')
         options = webdriver.EdgeOptions()
         options.add_experimental_option("debuggerAddress", "localhost:9999")
         driver = webdriver.Edge(options=options)
+        logger.success(f'Edge is connected!')
         return driver
 
     def _load_chrome(self):
+        logger.info(f'Initializing Chrome connection...')
         options = webdriver.ChromeOptions()
         options.add_experimental_option("debuggerAddress", "localhost:9999")
         driver = webdriver.Chrome(options=options)
+        logger.success(f'Chrome is connected!')
+        return driver
+
+    def _start_chrome(self, headless=False):
+        logger.info(f'Initializing Chrome headless...')
+        options = webdriver.ChromeOptions()
+        if headless: # CURRENTLY NOT WORKING
+            #TODO Make it work
+            options.add_argument("--headless=new")
+            options.add_argument('--window-size=1920x1080')
+            options.add_argument('--no-sandbox')
+            options.add_argument("user-agent=my-user-agent")
+        driver = webdriver.Chrome(options=options)
+        logger.success(f'Chrome driver started!')
         return driver
 
     # ----------- Message Bot Portion
