@@ -1,7 +1,9 @@
 import json
+import cv2
 from EdgeGPT.EdgeGPT import Chatbot, ConversationStyle
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
 import requests
 from pathlib import Path
 import os
@@ -120,16 +122,39 @@ class G3Bot:
     # Image generation portion
 
     async def create_images_with_browser(self, prompt, timeout=20):
+        logger.debug(f'Starting to generate images...')
         url = "https://www.bing.com/images/create/"
         prompt = prompt.strip("\n")
         self.driver.get(url)
 
         # Getting search bar and generating images
-        search_bar = self.driver.find_elements(By.XPATH, '//input[contains(@class, "b_searchbox gi_sb")]')
-        search_bar[0].send_keys(f'{prompt}\n')
-        time.sleep(30)
+        time.sleep(4)
+        ini = time.time()
+        while True:
+            logger.debug(f'Writing to search bar...')
+            search_bar = self.driver.find_elements(By.XPATH, '//div[contains(@class, "b_searchboxForm")]')
+            try:
+                search_bar[0].find_element(By.TAG_NAME, 'input').send_keys(f'{prompt}', Keys.ENTER)
+            except:
+                pass
+            time.sleep(2)
+            if time.time() - ini > timeout:
+                raise
+            if self.driver.current_url != url:
+                break
         # Searching images generated in page
-        div_element = self.driver.find_elements(By.ID, "mmComponent_images_as_1")
+        logger.debug(f'Waiting for images generation...')
+        time.sleep(30)
+        try:
+            div_element = self.driver.find_elements(By.ID, "mmComponent_images_as_1")
+        except:
+            logger.debug('Waiting 60 more seconds before trying again to generate images')
+            time.sleep(60)
+            div_element = self.driver.find_elements(By.ID, "mmComponent_images_as_1")
+        if len(div_element) == 0:
+            logger.debug('Waiting 60 more seconds before trying again to generate images')
+            time.sleep(60)
+            div_element = self.driver.find_elements(By.ID, "mmComponent_images_as_1")
 
         # Locate all img tags within the div
         images = div_element[0].find_elements(By.TAG_NAME, "img")
