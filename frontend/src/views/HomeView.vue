@@ -160,7 +160,7 @@ export default {
         });
       });
       
-    const fetchAllNews = fetch('http://localhost:7777/get_all_news?news_number=6')
+    const fetchAllNews = fetch('http://localhost:7777/get_all_news?news_number=20')
       .then(response => response.json())
       .then(data => {
         this.newsItems = data.reverse();
@@ -177,7 +177,6 @@ export default {
     // Wait for all fetches and image preloads to complete
     Promise.all([fetchUserNews, fetchAllNews, ...imagesToPreload])
       .then(() => {
-        // Do not set doneLoading to true here.
         // It will be handled by the imageLoaded() method.
       })
       .catch(err => {
@@ -608,5 +607,54 @@ export default {
   margin-left:3vw;
   margin-right:3vw;
 }
+
+.modal-image {
+  width: 100%;
+  height: auto;
+}
+
+.modal-arrow-button {
+  position: absolute;
+  top: 50%;  /* vertically center */
+  transform: translateY(-50%);  /* vertically center */
+  background-color: rgba(255, 255, 255, 0.5);
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  width: 10vw;
+  height: 10vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.modal {
+  display: block; /* Hidden by default */
+  position: fixed; 
+  z-index: 1; 
+  left: 0;
+  top: 8vh;
+  width: 100%; 
+  height: 90%; 
+  overflow: auto; 
+  background-color: rgba(0,0,0,0.4); 
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 5vh auto;
+  padding: 4vw;
+  border: 1px solid #888;
+  width: 90%;
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
 }
 </style>
