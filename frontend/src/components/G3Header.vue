@@ -148,7 +148,7 @@ export default {
   }
 
   .menu-options {
-    top: 20vh;
+    top: 10vh;
     right: 1vh;
   }
 }
