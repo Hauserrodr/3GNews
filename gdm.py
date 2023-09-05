@@ -3,6 +3,7 @@ from pathlib import Path
 
 from pydrive.auth import GoogleAuth
 from pydrive.drive import GoogleDrive
+from oauth2client._helpers import scopes_to_string
 
 from loguru import logger
 
@@ -22,7 +23,7 @@ class GoogleDriveManager:
     def _generate_auth(self):
         auth = GoogleAuth()
         # Try to load saved client credentials
-        auth.LoadCredentialsFile(os.path.join(base_dir,"gdrive_creds.txt"))
+        auth.LoadCredentialsFile(os.path.join(script_dir,"gdrive_creds.txt"))
 
         if auth.credentials is None:
             # Authenticate if they're not there
@@ -46,7 +47,7 @@ class GoogleDriveManager:
             auth.Authorize()
 
         # Save the current credentials to a file
-        auth.SaveCredentialsFile(os.path.join(base_dir,"gdrive_creds.txt")  )
+        auth.SaveCredentialsFile(os.path.join(script_dir,"gdrive_creds.txt")  )
         return auth
 
     def list_files(self):
