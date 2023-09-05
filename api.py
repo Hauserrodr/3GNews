@@ -29,7 +29,7 @@ middleware = [
     Middleware(CORSMiddleware, allow_origins=origins)
 ]
 app = FastAPI(middleware=middleware)
-app.mount("/home", StaticFiles(directory=os.path.join(script_dir, "frontend/dist")), name="home")
+app.mount("/assets", StaticFiles(directory=os.path.join(script_dir, "frontend/dist/assets")), name="home")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -44,11 +44,11 @@ app.add_middleware(
 async def root():
     return FileResponse("frontend/dist/index.html")
 
-@app.get("/home/", include_in_schema=False) 
+@app.get("/home/", include_in_schema=False)
 async def redirect_root():
     return RedirectResponse(url="/")
 
-@app.get("/home", include_in_schema=False) 
+@app.get("/home", include_in_schema=False)
 async def redirect_root():
     return RedirectResponse(url="/")
 
