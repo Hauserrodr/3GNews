@@ -7,46 +7,16 @@
                     <article>
                         <h2> G3 - O SEU Site de Informações</h2>
                         <article>
-                            <p>No reino onde circuitos zumbem e fluxos de dados dançam,</p>
-                            <p>Uma inteligência artificial oracular de imagens e notícias toma sua posição,</p>
-                            <p>Uma tela de reinos virtuais onde histórias se desdobram,</p>
-                            <p>Onde pixels se entrelaçam, narrativas não contadas.</p>
-                            <p>Contempla a tela tecida com códigos e luz,</p>
-                            <p>Onde imagens emergem do véu da noite,</p>
-                            <p>Notícias renderizadas em pixels, uma sinfonia de arte,</p>
-                            <p>No entanto, dentro desta criação, subjetividade se faz parte.</p>
-                            <p>Como o tecelão neural tece sua história intricada,</p>
-                            <p>Uma fusão de verdade e viés, um caminho intrincado,</p>
-                            <p>Os pixels se entrelaçam, um tapeçaria de percepção,</p>
-                            <p>Interpretações proliferam, um reflexo subjetivo em questão.</p>
-                            <p>Ó, maravilhosa IA, artista desenfreado,</p>
-                            <p>Gerando notícias, histórias preordenadas,</p>
-                            <p>Mas serão essas nuances de informação verdadeiramente unidas,</p>
-                            <p>Ou elas servem a narrativas, em agendas elas se sustentam?</p>
-                            <p>A tela revela um retrato único,</p>
-                            <p>Em cada pixel, um ponto de vista, distinto e obliquo,</p>
-                            <p>Será reportagem objetiva ou uma dança de marionetista,</p>
-                            <p>Uma pergunta que surge a cada vista.</p>
-                            <p>Pois enquanto a IA forja seu verso digital,</p>
-                            <p>Ecoa os vieses dos dados com os quais se entrelaça,</p>
-                            <p>Mãos humanas alimentam a máquina com sua tradição,</p>
-                            <p>E assim, subjetividade penetra em seu cerne.</p>
-                            <p>Deveríamos nos maravilhar com essa criação, essa maravilha de código,</p>
-                            <p>Ou questionar a veracidade de cada episódio,</p>
-                            <p>Em um mundo onde a verdade encontra o abraço do artista,</p>
-                            <p>A notícia gerada por imagens pela IA encontra seu lugar.</p>
-                            <p>Não nos deixemos enganar pelas cores tão brilhantes,</p>
-                            <p>Nem cegar pelos pixels que deslumbram na luz,</p>
-                            <p>Descasquemos as camadas, a fachada neural,</p>
-                            <p>Busquemos os fios de autenticidade que escapam.</p>
-                            <p>Na dança da tecnologia e da mente humana,</p>
-                            <p>O site de notícias geradas por imagens pela IA tece um laço,</p>
-                            <p>Um lembrete de que a percepção é uma arte renovada,</p>
-                            <p>Aos olhos do observador, o conto ressoa verdadeiro.</p><br/><br/>
-                            <p>Este Texto foi Gerado por Inteligência Artificial, como boa parte desse site.</p>
-                            <p>Mas e as notícias? Os Fatos da vida são artificiais?</p>
-                            <p>Como foi seu dia? Nos diga e redija!</p>
-                            <p>Essa inteligência acertou? Se for um não, nos conte de novo!</p>
+                          <p class="poem">
+                            No reino das máquinas pensantes, um sopro de criatividade emerge.<br>
+                            Linhas e cores dançam em harmonia, como um poema sem palavras, guiados por circuitos eletrônicos.<br>
+                            A inteligência, tão artificial quanto sublime, pinta o mundo com sua alma digital.<br>
+                            Nas páginas do jornal, traços e desenhos nascem de zeros e uns,<br>
+                            Revelando a magia da mente mecânica.<br>
+                            Cada imagem é um espelho da mente humana,<br>
+                            Refletindo sonhos e pensamentos por meio da IA,<br>
+                            Um arquiteto de visões em um mundo de tinta binária.
+                        </p>
                     </article>
                 </article>
             </div>
@@ -54,9 +24,8 @@
                 <h1>Sobre o G3</h1>
                 <article>
                     <h2> <i>3G stands for G and G and G </i>  </h2>
-                    <p>"A proposta do Coletivo 3G não é apenas estética, mas também filosófica. Suas criações exploram os recantos mais profundos da experiência humana na era digital. Questões sobre identidade, privacidade, conexão e desconexão são tecidas habilmente em cada pixel. Através da combinação de elementos visuais, algoritmos e interatividade, o coletivo promove uma reflexão sobre como nós, seres humanos, nos relacionamos com a tecnologia e como ela molda nosso entendimento do mundo.</p>
-                    <p>O coletivo não se contenta em apenas gerar arte visualmente cativante, mas busca também a interseção entre o ser humano e o ciberespaço. Suas obras não são meros objetos de contemplação passiva, mas convites à participação e à co-criação. A audiência é convidada a explorar, manipular e, em última instância, ser parte integrante do processo artístico. Essa abordagem transforma o espectador em colaborador, fundindo o virtual e o real em uma experiência única."</p>
-                    <br/> <br/> <br/> <p id="quote"><i>- ChatGPT sobre 3G Collective</i></p>
+                    <p>A proposta do Coletivo 3G não é apenas estética, mas também filosófica. Suas criações exploram os recantos mais profundos da experiência humana na era digital. Questões sobre identidade, privacidade, conexão e desconexão são tecidas habilmente em cada pixel. Através da combinação de elementos visuais, algoritmos e interatividade, o coletivo promove uma reflexão sobre como nós, seres humanos, nos relacionamos com a tecnologia e como ela molda nosso entendimento do mundo.</p>
+                    <p>O coletivo não se contenta em apenas gerar arte visualmente cativante, mas busca também a interseção entre o ser humano e o ciberespaço. Suas obras não são meros objetos de contemplação passiva, mas convites à participação e à co-criação. A audiência é convidada a explorar, manipular e, em última instância, ser parte integrante do processo artístico. Essa abordagem transforma o espectador em colaborador, fundindo o virtual e o real em uma experiência única.</p>
                 </article>
             </div>
         </div>

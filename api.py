@@ -16,7 +16,7 @@ from uvicorn import Config, Server
 import uvicorn
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.middleware import Middleware
-from fastapi.responses import FileResponse, JSONResponse
+from fastapi.responses import FileResponse, JSONResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 
 origins = [
@@ -43,6 +43,14 @@ app.add_middleware(
 @app.get("/")
 async def root():
     return FileResponse("frontend/dist/index.html")
+
+@app.get("/home/", include_in_schema=False) 
+async def redirect_root():
+    return RedirectResponse(url="/")
+
+@app.get("/home", include_in_schema=False) 
+async def redirect_root():
+    return RedirectResponse(url="/")
 
 @app.get('/generate_user_news')
 async def generate_user_news(user_name:str, user_region:str, user_microregion:str, user_history:str):
