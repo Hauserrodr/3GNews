@@ -21,6 +21,32 @@ class GoogleDriveManager:
 
     def _generate_auth(self):
         auth = GoogleAuth()
+        # Try to load saved client credentials
+        auth.LoadCredentialsFile(os.path.join(base_dir,"gdrive_creds.txt"))
+
+        if auth.credentials is None:
+            # Authenticate if they're not there
+
+            # This is what solved the issues:
+            auth.GetFlow()
+            auth.flow.params.update({'access_type': 'offline'})
+            auth.flow.params.update({'approval_prompt': 'force'})
+
+            auth.LocalWebserverAuth()
+
+        elif auth.access_token_expired:
+
+            # Refresh them if expired
+
+            auth.Refresh()
+        else:
+
+            # Initialize the saved creds
+
+            auth.Authorize()
+
+        # Save the current credentials to a file
+        auth.SaveCredentialsFile(os.path.join(base_dir,"gdrive_creds.txt")  )
         return auth
 
     def list_files(self):
